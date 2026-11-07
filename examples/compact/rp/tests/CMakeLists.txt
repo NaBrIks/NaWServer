@@ -1,0 +1,11 @@
+cmake_minimum_required(VERSION 3.16)
+project(CompactUf2Validation LANGUAGES CXX)
+if(NOT PICO_SDK_PATH)
+    message(FATAL_ERROR "Set PICO_SDK_PATH to use its standalone UF2 format header")
+endif()
+enable_testing()
+add_executable(uf2_validation uf2_validation_test.cpp)
+target_compile_features(uf2_validation PRIVATE cxx_std_17)
+target_include_directories(uf2_validation PRIVATE ../src "${PICO_SDK_PATH}/src/common/boot_uf2_headers/include"
+    "${PICO_SDK_PATH}/src/common/boot_picobin_headers/include")
+add_test(NAME uf2_validation COMMAND uf2_validation)

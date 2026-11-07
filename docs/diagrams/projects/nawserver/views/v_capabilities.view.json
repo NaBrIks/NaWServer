@@ -1,0 +1,211 @@
+{
+  "id": "v_capabilities",
+  "project": "nawserver",
+  "axis": "axis_layer",
+  "placements": [
+    {
+      "entity": "e_cap_app",
+      "parent": null,
+      "x": 20,
+      "y": 120,
+      "width": 1380,
+      "height": 160,
+      "override": {
+        "border": {
+          "color": "#86efac"
+        },
+        "fill": "#f0fdf4",
+        "header": {
+          "fill": "#dcfce7"
+        }
+      }
+    },
+    {
+      "entity": "e_cap_core",
+      "parent": null,
+      "x": 20,
+      "y": 320,
+      "width": 1380,
+      "height": 380,
+      "override": {
+        "border": {
+          "color": "#93c5fd"
+        },
+        "fill": "#eff6ff",
+        "header": {
+          "fill": "#dbeafe"
+        }
+      }
+    },
+    {
+      "entity": "e_cap_platform",
+      "parent": null,
+      "x": 20,
+      "y": 740,
+      "width": 1380,
+      "height": 220,
+      "override": {
+        "border": {
+          "color": "#c4b5fd"
+        },
+        "fill": "#f5f3ff",
+        "header": {
+          "fill": "#ede9fe"
+        }
+      }
+    },
+    {
+      "entity": "e_cap_browser",
+      "parent": null,
+      "x": 80,
+      "y": 20,
+      "width": 360,
+      "height": 60
+    },
+    {
+      "entity": "e_cap_api",
+      "parent": null,
+      "x": 520,
+      "y": 20,
+      "width": 360,
+      "height": 60
+    },
+    {
+      "entity": "e_cap_agent",
+      "parent": null,
+      "x": 960,
+      "y": 20,
+      "width": 360,
+      "height": 60
+    },
+    {
+      "entity": "e_cap_ui",
+      "parent": "e_cap_app",
+      "x": 60,
+      "y": 180,
+      "width": 400,
+      "height": 60
+    },
+    {
+      "entity": "e_cap_handlers",
+      "parent": "e_cap_app",
+      "x": 500,
+      "y": 180,
+      "width": 400,
+      "height": 60
+    },
+    {
+      "entity": "e_cap_services",
+      "parent": "e_cap_app",
+      "x": 940,
+      "y": 180,
+      "width": 400,
+      "height": 60
+    },
+    {
+      "entity": "e_cap_http",
+      "parent": "e_cap_core",
+      "x": 60,
+      "y": 380,
+      "width": 400,
+      "height": 60
+    },
+    {
+      "entity": "e_cap_realtime",
+      "parent": "e_cap_core",
+      "x": 500,
+      "y": 380,
+      "width": 400,
+      "height": 60
+    },
+    {
+      "entity": "e_cap_policy",
+      "parent": "e_cap_core",
+      "x": 940,
+      "y": 380,
+      "width": 400,
+      "height": 60
+    },
+    {
+      "entity": "e_cap_tx",
+      "parent": "e_cap_core",
+      "x": 60,
+      "y": 490,
+      "width": 400,
+      "height": 60
+    },
+    {
+      "entity": "e_cap_buffers",
+      "parent": "e_cap_core",
+      "x": 500,
+      "y": 490,
+      "width": 400,
+      "height": 60
+    },
+    {
+      "entity": "e_cap_keys",
+      "parent": "e_cap_core",
+      "x": 940,
+      "y": 490,
+      "width": 400,
+      "height": 60
+    },
+    {
+      "entity": "e_cap_diagnostics",
+      "parent": "e_cap_core",
+      "x": 60,
+      "y": 600,
+      "width": 400,
+      "height": 60
+    },
+    {
+      "entity": "e_cap_json",
+      "parent": "e_cap_core",
+      "x": 500,
+      "y": 600,
+      "width": 400,
+      "height": 60
+    },
+    {
+      "entity": "e_cap_lifecycle",
+      "parent": "e_cap_core",
+      "x": 940,
+      "y": 600,
+      "width": 400,
+      "height": 60
+    },
+    {
+      "entity": "e_cap_esp",
+      "parent": "e_cap_platform",
+      "x": 60,
+      "y": 800,
+      "width": 400,
+      "height": 60
+    },
+    {
+      "entity": "e_cap_rp",
+      "parent": "e_cap_platform",
+      "x": 500,
+      "y": 800,
+      "width": 400,
+      "height": 60
+    },
+    {
+      "entity": "e_cap_host",
+      "parent": "e_cap_platform",
+      "x": 940,
+      "y": 800,
+      "width": 400,
+      "height": 60
+    },
+    {
+      "entity": "e_cap_memory",
+      "parent": "e_cap_platform",
+      "x": 260,
+      "y": 890,
+      "width": 900,
+      "height": 50
+    }
+  ],
+  "routing": "orthogonal"
+}

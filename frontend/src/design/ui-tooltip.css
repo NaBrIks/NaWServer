@@ -1,0 +1,15 @@
+.lu-tooltip {
+    position:fixed; inset:auto; margin:0; box-sizing:border-box;
+    width:max-content; max-width:min(440px,calc(100vw - 24px));
+    max-height:calc(100dvh - 24px); overflow:auto; overscroll-behavior:contain;
+    padding:10px 12px; border:1px solid var(--lu-text-muted); border-radius:3px;
+    background:var(--lu-surface); color:var(--lu-text);
+    font:14px/1.45 "Segoe UI",Arial,sans-serif; font-weight:400; text-align:left;
+    white-space:pre-line; overflow-wrap:anywhere; box-shadow:0 2px 7px rgb(0 0 0 / .18);
+    z-index:10000;
+}
+.lu-tooltip[hidden] { display:none; }
+.lu-tooltip::backdrop { background:transparent; pointer-events:none; }
+[data-tooltip]:focus-visible { outline:2px solid var(--lu-primary); outline-offset:2px; }
+svg [data-tooltip]:focus-visible { outline-offset:3px; }
+.lu-tooltip { pointer-events:none; }

@@ -1,0 +1,9 @@
+SSE_COMMON passed=20144 cplusplus=201703 sizeof_sessions=12728 sizeof_adapter=12800
+SSE_CHURN cycles=20 heap_before=253676 heap_after=251484
+SSE_CHURN cycles=40 heap_before=253676 heap_after=251484
+SSE_CHURN cycles=60 heap_before=253676 heap_after=251488
+SSE_CHURN cycles=80 heap_before=253676 heap_after=251468
+SSE_CHURN cycles=100 heap_before=253676 heap_after=251480
+SSE_STALL frames=14 elapsed_ms=1478 producer_max_us=67
+SSE_DONE passed=12916 admitted=111 completed=111 heap_before_churn=253676 heap_after_stop=268084 producer_max_us=67
+FIRMWARE bytes=390208 write_start=0x10000 write_end_exclusive=0x6f440 sha256=56863040119b8539914635790748ea872ed289836ed43c2c634c948aae0e30e7

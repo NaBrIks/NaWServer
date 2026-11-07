@@ -1,0 +1,5 @@
+/.deps/
+/.private/
+/build/
+/frontend/dist/
+/*.log

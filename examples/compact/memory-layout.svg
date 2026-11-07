@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="510" viewBox="0 0 1100 510" role="img" aria-labelledby="title desc">
+<title id="title">Распределение внутренней SRAM при работе веб-демо</title>
+<desc id="desc">Три полосы: ESP32-C3 400 КиБ, ESP32-S3 512 КиБ, RP2350 520 КиБ. Цвета показывают свободную и занятую кучу, а также участки за пределами кучи; у RP отдельно показаны FreeRTOS и newlib.</desc>
+<rect width="1100" height="510" fill="#fffdf9"/>
+<g font-family="Arial, sans-serif" fill="#29251f">
+<text x="30" y="38" font-size="23" font-weight="bold">Внутренняя SRAM: два SSE, API и загрузка страницы</text>
+<text x="30" y="64" font-size="14">Каждая полоса = 100% физической SRAM. PSRAM и RTC RAM не включены.</text>
+<g font-size="15" font-weight="bold"><text x="30" y="120">ESP32-C3</text><text x="30" y="224">ESP32-S3</text><text x="30" y="328">Pico 2 W</text></g>
+<g font-size="13"><text x="30" y="140">400 КиБ</text><text x="30" y="244">512 КиБ</text><text x="30" y="348">520 КиБ</text></g>
+<g stroke="#655c50" stroke-width="0.8">
+<rect x="190" y="95" width="226" height="46" fill="#b9afa1"/><rect x="416" y="95" width="202" height="46" fill="#d99059"/><rect x="618" y="95" width="272" height="46" fill="#6aab83"/>
+<rect x="190" y="199" width="234" height="46" fill="#b9afa1"/><rect x="424" y="199" width="167" height="46" fill="#d99059"/><rect x="591" y="199" width="299" height="46" fill="#6aab83"/>
+<rect x="190" y="303" width="111" height="46" fill="#b9afa1"/><rect x="301" y="303" width="43" height="46" fill="#d99059"/><rect x="344" y="303" width="43" height="46" fill="#6aab83"/><rect x="387" y="303" width="34" height="46" fill="#b76b48"/><rect x="421" y="303" width="458" height="46" fill="#438f9c"/><rect x="879" y="303" width="11" height="46" fill="#6c6660"/>
+</g>
+<g text-anchor="middle" font-size="15" font-weight="bold"><text x="303" y="123">32,2%</text><text x="517" y="123">28,9%</text><text x="754" y="123">38,9%</text><text x="307" y="227">33,4%</text><text x="507" y="227">23,9%</text><text x="740" y="227">42,7%</text><text x="246" y="331">15,9%</text><text x="650" y="331">65,5%</text></g>
+<g font-size="14"><text x="905" y="116">Свободно: 155,5 КиБ</text><text x="905" y="132">из 400 КиБ</text><text x="905" y="220">Свободно: 218,9 КиБ</text><text x="905" y="236">из 512 КиБ</text><text x="905" y="322">Две разные кучи;</text><text x="905" y="338">см. легенду</text></g>
+<g font-size="13"><rect x="30" y="386" width="16" height="16" fill="#b9afa1"/><text x="53" y="399">ESP: вне наблюдаемой кучи; RP: статическая SRAM без пула RTOS</text>
+<rect x="30" y="414" width="16" height="16" fill="#d99059"/><text x="53" y="427">ESP: занято в heap; RP: занято в FreeRTOS (6,15%)</text>
+<rect x="30" y="442" width="16" height="16" fill="#6aab83"/><text x="53" y="455">ESP: свободно в heap; RP: свободно в FreeRTOS (6,16%)</text>
+<rect x="600" y="386" width="16" height="16" fill="#b76b48"/><text x="623" y="399">RP: занято в newlib (4,79%)</text>
+<rect x="600" y="414" width="16" height="16" fill="#438f9c"/><text x="623" y="427">RP: оценка свободной newlib (65,50%)</text>
+<rect x="600" y="442" width="16" height="16" fill="#6c6660"/><text x="623" y="455">RP: scratch-банки (1,54%)</text></g>
+<text x="30" y="489" font-size="12">ESP: минимум свободной heap по выборкам; RP: один согласованный снимок. Вне heap не означает целиком занятую память.</text>
+</g></svg>

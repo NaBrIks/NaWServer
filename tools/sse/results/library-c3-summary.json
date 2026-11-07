@@ -1,0 +1,69 @@
+{
+  "date": "2026-10-19",
+  "target": "esp32c3",
+  "idf": "5.4.0",
+  "gcc": "14.2",
+  "cpp": 17,
+  "runtime": "src/sse",
+  "public_header": "src/sse.h",
+  "firmware_bytes": 818976,
+  "firmware_sha256": "efc6347bb0af459b2228d7a476a6050b2fb59e24a31700c5af1dc5c9496132c2",
+  "write_start": "0x10000",
+  "write_end_exclusive": "0xd7f20",
+  "host_ctest_passed": 8,
+  "host_ctest_total": 8,
+  "host_encoder_session_checks": 20269,
+  "host_bridge_checks": 712,
+  "device_encoder_session_checks": 20269,
+  "lan": {
+    "begun": 41,
+    "checks": 2579,
+    "churn_free_heap": [
+      147480,
+      146844,
+      146844
+    ],
+    "completed": 41,
+    "http_stack_min_bytes": 900,
+    "mixed_http_ws_ms": 107,
+    "overflow": 1,
+    "producer_max_us": 182,
+    "rolled_back": 1,
+    "slow_frames_queued": 101,
+    "stall": 1
+  },
+  "browser_eventsource_checks": 3,
+  "stop_checks": 74,
+  "final": {
+    "begun": 46,
+    "completed": 46,
+    "rolled_back": 1,
+    "active": 0,
+    "pending": 0,
+    "close_errors": 0,
+    "producer_max_us": 182,
+    "free_heap_after_stop": 160552
+  },
+  "unoptimized_first_pass_http_stack_min_bytes": 596,
+  "normal_event_source_object_bytes": 12944,
+  "worker_stack_bytes": 4096,
+  "test_fixture_extra_rollback_probe_instances": 1,
+  "restored_minimal": {
+    "firmware_sha256": "57f0ec531b880f91d19ff99825d10becd3ae6f4af874ab926a7c1c1b54ad817a",
+    "firmware_bytes": 903072,
+    "response_checks": 85,
+    "loopback_checks": 63,
+    "http_api_checks": 198,
+    "legacy_http_ws_smoke": "PASS",
+    "http_api_smoke": "PASS",
+    "http_stack_min_bytes": 2092,
+    "serial_port_released": true,
+    "sse_service_running": false
+  },
+  "limitations": [
+    "plain native HTTPD only",
+    "no TLS or send overrides",
+    "no external forced close of owned async requests",
+    "no SDK OOM injection or long soak"
+  ]
+}

@@ -1,0 +1,6 @@
+# Preserve existing data boundaries; write benchmark only into app0.
+nvs,data,nvs,0x9000,0x5000,
+otadata,data,ota,0xe000,0x2000,
+app0,app,ota_0,0x10000,0x280000,
+eeprom,data,0x99,0x290000,0x1000,
+littlefs,data,0x82,0x291000,0x150000,

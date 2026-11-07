@@ -1,0 +1,4 @@
+[mcp_servers.semaps]
+command = "semaps"
+args = ["mcp"]
+default_tools_approval_mode = "approve"

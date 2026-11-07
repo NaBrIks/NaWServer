@@ -1,0 +1,13 @@
+{
+  "backend": "@NAWSERVER_DEMO_HTTP_TEST_BOARD@",
+  "parameters": "/echo",
+  "binary": "/private/body",
+  "binaryAuth": true,
+  "methodMismatch": "/private/body",
+  "forbidden": null,
+  "websocket": "/ws",
+  "sse": "/events",
+  "ssePrivate": "/events/private",
+  "transport": "HTTP/1.1 · LAN · shared TCP",
+  "scope": "Проверки выполняются на подключённой плате @NAWSERVER_DEMO_HTTP_TEST_BOARD@"
+}

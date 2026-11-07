@@ -1,0 +1,12 @@
+<script setup lang="ts">
+import {onMounted,ref} from 'vue';
+import {request} from '@frontend/state/device';
+import {t} from '@frontend/state/appearance';
+const state=ref<Record<string,number|string|boolean>>({}),name=ref(''),result=ref(''),busy=ref(false);
+async function load(){const r=await request('/api/settings');if(!r.ok)throw Error(r.text);state.value=JSON.parse(r.text);name.value=String(state.value.name??'');}
+async function save(){busy.value=true;try{const r=await request('/api/settings?'+new URLSearchParams({name:name.value}),{method:'POST'});if(!r.ok)throw Error(r.text);await load();result.value=t('Сохранено','Saved');}catch(e){result.value=String(e);}finally{busy.value=false;}}
+onMounted(()=>load().catch(e=>result.value=String(e)));
+</script>
+<template><section class="panel"><div class="panel-head"><h2>Flash · LittleFS / NVS</h2></div><div class="table-wrap"><table><thead><tr><th>{{t('Раздел','Partition')}}</th><th>{{t('Начало','Offset')}}</th><th class="numeric">KiB</th><th>{{t('Назначение','Purpose')}}</th></tr></thead><tbody><tr><td>Firmware</td><td class="mono">0x000000</td><td class="numeric">2048</td><td>C++ / Pico SDK / FreeRTOS / NaWServer</td></tr><tr><td>LittleFS</td><td class="mono">0x200000</td><td class="numeric">1792</td><td>Vue UI / assets</td></tr><tr><td>NVS</td><td class="mono">0x3C0000</td><td class="numeric">256</td><td>{{t('Настройки · CRC / две банки','Settings · CRC / two banks')}}</td></tr></tbody></table></div></section>
+<section class="panel"><div class="panel-head"><h2>{{t('Сохранённые настройки платы','Persisted device settings')}}</h2><span>{{state.fs_mounted?'LittleFS online':'LittleFS offline'}}</span></div><form class="input-row" @submit.prevent="save"><label for="rp-name">{{t('Имя','Name')}}</label><input id="rp-name" v-model="name" maxlength="47" required><button class="primary" :disabled="busy">{{t('Сохранить в NVS','Save to NVS')}}</button><span class="rp-save-result" role="status" :data-tooltip="result">{{result}}</span></form><dl class="details"><div><dt>NVS generation</dt><dd>{{state.nvs_generation??'—'}}</dd></div><div><dt>{{t('Запусков / сохранений','Boots / saves')}}</dt><dd>{{state.boot_count??'—'}} / {{state.save_count??'—'}}</dd></div><div><dt>LittleFS {{t('занято, КиБ','used, KiB')}}</dt><dd>{{Number(state.fs_used_bytes??0)/1024}}</dd></div></dl></section></template>
+<style scoped>.rp-save-result{display:inline-block;width:130px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}</style>

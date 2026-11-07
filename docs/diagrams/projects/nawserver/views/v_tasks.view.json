@@ -1,0 +1,193 @@
+{
+  "id": "v_tasks",
+  "project": "nawserver",
+  "axis": "axis_execution",
+  "placements": [
+    {
+      "entity": "e_task_main",
+      "parent": null,
+      "x": 40,
+      "y": 40,
+      "width": 360,
+      "height": 560,
+      "override": {
+        "border": {
+          "color": "#86efac"
+        },
+        "fill": "#f0fdf4",
+        "header": {
+          "fill": "#dcfce7"
+        }
+      }
+    },
+    {
+      "entity": "e_task_http",
+      "parent": null,
+      "x": 440,
+      "y": 40,
+      "width": 700,
+      "height": 560,
+      "override": {
+        "border": {
+          "color": "#93c5fd"
+        },
+        "fill": "#eff6ff",
+        "header": {
+          "fill": "#dbeafe"
+        }
+      }
+    },
+    {
+      "entity": "e_task_sdk",
+      "parent": null,
+      "x": 1580,
+      "y": 40,
+      "width": 360,
+      "height": 560,
+      "override": {
+        "border": {
+          "color": "#c4b5fd"
+        },
+        "fill": "#f5f3ff",
+        "header": {
+          "fill": "#ede9fe"
+        }
+      }
+    },
+    {
+      "entity": "e_main_wait",
+      "parent": "e_task_main",
+      "x": 80,
+      "y": 130,
+      "width": 280,
+      "height": 70
+    },
+    {
+      "entity": "e_publish",
+      "parent": "e_task_main",
+      "x": 80,
+      "y": 320,
+      "width": 280,
+      "height": 70
+    },
+    {
+      "entity": "e_http_select",
+      "parent": "e_task_http",
+      "x": 480,
+      "y": 130,
+      "width": 280,
+      "height": 70
+    },
+    {
+      "entity": "e_body_recv",
+      "parent": "e_task_http",
+      "x": 820,
+      "y": 130,
+      "width": 280,
+      "height": 70
+    },
+    {
+      "entity": "e_app_callback",
+      "parent": "e_task_http",
+      "x": 820,
+      "y": 320,
+      "width": 280,
+      "height": 70
+    },
+    {
+      "entity": "e_http_job",
+      "parent": "e_task_http",
+      "x": 480,
+      "y": 320,
+      "width": 280,
+      "height": 70
+    },
+    {
+      "entity": "e_socket_wait",
+      "parent": "e_task_http",
+      "x": 480,
+      "y": 480,
+      "width": 280,
+      "height": 70
+    },
+    {
+      "entity": "e_event_task",
+      "parent": "e_task_sdk",
+      "x": 1620,
+      "y": 130,
+      "width": 280,
+      "height": 70
+    },
+    {
+      "entity": "e_network_tasks",
+      "parent": "e_task_sdk",
+      "x": 1620,
+      "y": 320,
+      "width": 280,
+      "height": 70
+    },
+    {
+      "entity": "e_tasks_note",
+      "parent": null,
+      "x": 40,
+      "y": 650,
+      "width": 700,
+      "height": 70
+    },
+    {
+      "entity": "e_queue_note",
+      "parent": null,
+      "x": 800,
+      "y": 650,
+      "width": 1140,
+      "height": 70
+    },
+    {
+      "entity": "e_task_sse",
+      "parent": null,
+      "x": 1180,
+      "y": 40,
+      "width": 360,
+      "height": 560,
+      "override": {
+        "border": {
+          "color": "#5eead4"
+        },
+        "fill": "#f0fdfa",
+        "header": {
+          "fill": "#ccfbf1"
+        }
+      }
+    },
+    {
+      "entity": "e_sse_handoff",
+      "parent": "e_task_http",
+      "x": 820,
+      "y": 480,
+      "width": 280,
+      "height": 70
+    },
+    {
+      "entity": "e_sse_worker_step",
+      "parent": "e_task_sse",
+      "x": 1220,
+      "y": 130,
+      "width": 280,
+      "height": 70
+    },
+    {
+      "entity": "e_sse_worker_close",
+      "parent": "e_task_sse",
+      "x": 1220,
+      "y": 320,
+      "width": 280,
+      "height": 70
+    }
+  ],
+  "routing": "orthogonal",
+  "relations": {
+    "except": [
+      "r_publish_sse_worker_step_data_flow"
+    ]
+  }
+}

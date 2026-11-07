@@ -1,0 +1,8 @@
+node_modules/
+frontend/dist/
+simulator/**/bin/
+simulator/**/obj/
+simulator/.vs/
+simulator/**/TestResults/
+*.user
+local/

@@ -1,0 +1,47 @@
+:root {
+  color-scheme: light dark;
+  --page: #f3f5f8; --surface: #fff; --text: #243248; --muted: #64748b;
+  --line: #dce3ec; --accent: #2563eb; --success: #137547; --error: #bf303b;
+  --hover: #eef4ff; --head: #edf1f6; --bar: #17243a;
+  font: 13px/1.4 "Segoe UI", system-ui, sans-serif;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--page); color: var(--text); }
+.topbar { display: flex; align-items: center; gap: 22px; padding: 10px 20px; background: var(--bar); color: #dbe6f9; }
+.topbar strong { display: inline-flex; align-items: center; gap: 8px; color: #fff; font-size: 15px; }
+.mark { display: inline-grid; place-items: center; width: 24px; height: 24px; border: 1px solid #6a8ab8; color: #9fc8ff; font: 700 15px/1 monospace; }
+.address { margin-left: auto; font: 12px ui-monospace, Consolas, monospace; }
+main { max-width: 1240px; padding: 18px 20px; margin: auto; }
+.toolbar { display: flex; align-items: center; gap: 18px; min-height: 30px; }
+h1 { margin: 0; font-size: 18px; font-weight: 600; }
+#summary { font-variant-numeric: tabular-nums; color: var(--muted); }
+button { margin-left: auto; padding: 6px 12px; border: 1px solid var(--accent); border-radius: 4px; background: var(--accent); color: #fff; font: inherit; cursor: pointer; }
+button:disabled { opacity: .65; cursor: wait; }
+.intro { margin: 9px 0 14px; color: var(--muted); }
+.table-scroll { overflow-x: auto; border: 1px solid var(--line); border-radius: 4px; background: var(--surface); }
+table { width: 100%; min-width: 830px; table-layout: fixed; border-collapse: collapse; }
+.name-col { width: 25%; } .method-col { width: 70px; } .path-col { width: 30%; }
+.code-col { width: 65px; } .time-col { width: 80px; } .result-col { width: 90px; }
+th, td { padding: 5px 10px; border-bottom: 1px solid var(--line); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: left; }
+th { background: var(--head); color: var(--muted); font-size: 12px; font-weight: 600; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr { cursor: pointer; }
+tbody tr:hover, tbody tr:focus-visible, tbody tr.selected { background: var(--hover); outline: none; }
+.number { text-align: right; font-variant-numeric: tabular-nums; }
+.method, .path, .code { font-family: ui-monospace, Consolas, monospace; font-size: 12px; }
+.path { color: var(--muted); }
+.pass { color: var(--success); } .fail { color: var(--error); } .pending { color: var(--muted); }
+#summary.pass { color: var(--success); } #summary.fail { color: var(--error); }
+.details { margin-top: 14px; border: 1px solid var(--line); border-radius: 4px; background: var(--surface); }
+h2 { margin: 0; padding: 7px 10px; font-size: 12px; font-weight: 600; border-bottom: 1px solid var(--line); }
+pre { margin: 0; padding: 10px; max-height: 220px; overflow: auto; font: 12px/1.5 ui-monospace, Consolas, monospace; white-space: pre-wrap; overflow-wrap: anywhere; }
+footer { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; margin-top: 12px; color: var(--muted); font-size: 11px; }
+@media (prefers-color-scheme: dark) {
+  :root { --page: #111925; --surface: #192334; --text: #dae3ef; --muted: #9aabc1; --line: #2c3a50; --head: #202d40; --hover: #253b59; --success: #79d6a5; --error: #ff929b; }
+}
+@media (max-width: 620px) {
+  main { padding: 12px; } .topbar { padding: 8px 12px; gap: 10px; }
+  .toolbar { flex-wrap: wrap; gap: 8px 12px; } h1 { font-size: 16px; }
+  .topbar > span:not(.address) { display: none; } button { padding: 5px 9px; }
+}
+.mcp{padding:8px 10px}.mcp h2{border:0;padding:0}.mcp .toolbar{flex-wrap:wrap;gap:8px 14px}.mcp-grid{display:grid;grid-template-columns:1fr 1fr 1.5fr;gap:12px}.mcp label{display:block;font-size:12px;margin-bottom:4px}.mcp select,.mcp textarea{width:100%;background:var(--surface);color:var(--text);border:1px solid var(--line);padding:4px;font:12px/1.4 ui-monospace,Consolas,monospace}.mcp textarea{resize:vertical}.mcp details{margin:5px 0}.mcp summary{cursor:pointer;font-size:12px}.mcp pre{padding:5px 0}.mcp button{padding:4px 8px}.mcp #mcp-status{font-size:12px;overflow-wrap:anywhere}.mcp #mcp-call{margin-top:4px}@media(max-width:700px){.mcp-grid{grid-template-columns:1fr}}

@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NaWServer · HTTP check</title>
+  <link rel="stylesheet" href="/http-test.css">
+  <script src="/http-test.js" defer></script>
+  <script type="module" src="/mcp-panel.js"></script>
+</head>
+<body>
+  <header class="topbar"><strong><span class="mark">N</span> NaWServer</strong><span id="backend">HTTP</span><span class="address" id="address"></span></header>
+  <main>
+    <div class="toolbar"><h1 id="page-title">Проверка HTTP</h1><span id="summary" role="status" aria-live="polite">Ожидание</span><button id="run" type="button">Запустить проверки</button></div>
+    <p class="intro">Живые запросы из браузера через общие Request, Route, middleware и Response. Нажмите строку, чтобы увидеть подробности.</p>
+    <div class="table-scroll"><table>
+      <colgroup><col class="name-col"><col class="method-col"><col class="path-col"><col class="code-col"><col class="code-col"><col class="time-col"><col class="result-col"></colgroup>
+      <thead><tr><th>Проверка</th><th>Метод</th><th>Адрес</th><th class="number">Ожид.</th><th class="number">HTTP</th><th class="number">мс</th><th>Результат</th></tr></thead>
+      <tbody id="results"></tbody>
+    </table></div>
+    <section class="details"><h2 id="detail-title">Детали ответа</h2><pre id="detail">Выберите проверку в таблице.</pre></section>
+    <section class="details mcp"><div class="toolbar"><h2>MCP · напрямую к контроллеру</h2><code>POST /mcp</code><span id="mcp-status" role="status">Не проверен</span><button id="mcp-initialize" type="button" disabled>Discover / tools/list</button></div>
+      <p class="intro">JSON-only · 2026-07-28 · stateless. Включается при сборке прошивки. HTTP 404 без JSON-RPC: endpoint отсутствует. Аргументы integer: ±(2^53−1); сырой ответ сохранён. Запрос ≤4096 Б, ответ клиента ≤16 КиБ, ожидание 5 с.</p>
+      <div class="mcp-grid"><div><label for="mcp-tool">Инструмент сервера</label><select id="mcp-tool" disabled><option value="">—</option></select><details><summary>inputSchema</summary><pre id="mcp-schema">{}</pre></details></div><div><label for="mcp-arguments">Аргументы JSON</label><textarea id="mcp-arguments" rows="4" maxlength="4096" spellcheck="false">{}</textarea><button id="mcp-call" type="button" disabled>tools/call</button></div><div><label>Ответ JSON-RPC / ошибка инструмента</label><pre id="mcp-result">—</pre></div></div>
+      <details><summary>Сервер / capabilities</summary><pre id="mcp-capabilities">—</pre></details><details><summary>Сырой JSON-RPC · последние 12 обменов</summary><pre id="mcp-protocol">—</pre></details>
+    </section>
+    <footer><span id="transport"></span><span id="scope"></span></footer>
+  </main>
+</body>
+</html>

@@ -1,0 +1,1813 @@
+{
+  "contractVersion": 5,
+  "language": "ru",
+  "entries": {
+    "v_layers": {
+      "name": {
+        "v": "01 · Архив 28.10 · Слои и HTTPD",
+        "at": "2026-11-06T15:31:48Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "Ответственность приложения, NaWServer и SDK на 24.10.2026. Request и Response разделены; EventSource входит в core. Карта показывает выбранные зависимости слоёв; подробные связи producer/open/Response читаются в registry и специализированных flow/access views.",
+        "at": "2026-10-24T05:25:03Z",
+        "origin": "authored"
+      }
+    },
+    "v_context": {
+      "name": {
+        "v": "02 · Архив 28.10 · Граница библиотеки",
+        "at": "2026-11-06T15:31:47Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "Граница NaWServer на 24.10.2026: HTTP, public WS и SSE; auth через HTTP/SSE Route. Приложение владеет сетью, storage, handlers и producers. Внутренние вызовы handlers и дополнительная producer→SSE связь скрыты для чтения внешних протоколов; их контракт показан в flow/access views и описаниях.",
+        "at": "2026-10-24T05:25:05Z",
+        "origin": "authored"
+      }
+    },
+    "v_tasks": {
+      "name": {
+        "v": "03 · Архив 28.10 · FreeRTOS",
+        "at": "2026-11-06T15:31:49Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "Контексты исполнения на 24.10.2026. HTTP/WS callbacks и WS jobs — HTTPD; SSE admission на HTTPD, I/O/complete — отдельный worker. Producer→SSE data-flow скрыт только здесь, его копирование/очередь показаны на v_flow; общей очереди WS/SSE нет.",
+        "at": "2026-10-24T05:25:11Z",
+        "origin": "authored"
+      }
+    },
+    "v_flow": {
+      "name": {
+        "v": "04 · Архив 28.10 · WS/SSE: память",
+        "at": "2026-11-06T15:31:47Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "Владение и время жизни на 24.10.2026. Верхние две зоны — WS heap copy и HTTPD SendWork. Нижняя — SSE owned async request, bounded Frame queues, producer publish и worker completion при закрытии. Queued не означает delivery/ACK.",
+        "at": "2026-10-24T05:25:13Z",
+        "origin": "authored"
+      }
+    },
+    "v_app": {
+      "name": {
+        "v": "05 · Архив 28.10 · Жизненный цикл",
+        "at": "2026-11-06T15:31:46Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "Lifecycle на 24.10.2026. Owners/конфигурация до begin. SSE start/stop выполняются только если сервис используется; start после SDK init, stop должен успешно завершиться до Server::end. Не скрывать ошибку остановки и не разрушать borrowed owners раньше времени.",
+        "at": "2026-10-24T05:25:15Z",
+        "origin": "authored"
+      }
+    },
+    "v_access": {
+      "name": {
+        "v": "06 · Архив 28.10 · HTTP/SSE: доступ и планы",
+        "at": "2026-11-06T15:31:46Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "HTTP/SSE access на 24.10.2026. Реальные Route/Chain/Auth/Access/FixedBasic показаны отдельно от планов roles/storage/login sessions. Body читается до pipeline. SSE open после policy; native WS upgrade не защищается HTTP Route. Скрытая связь Access→roles остаётся историческим предложением, не текущей зависимостью.",
+        "at": "2026-10-24T05:25:17Z",
+        "origin": "authored"
+      }
+    },
+    "e_routes": {
+      "name": {
+        "v": "Обработчики приложения",
+        "at": "2026-10-18T13:30:27Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "РЕАЛИЗОВАНО. Приложение владеет HandlerBase, endpoint callbacks и backing data. Route связывает method/path, EndpointRef, Pipeline и AccessPolicy. Бизнес-логика, DTO, CBOR с UTF-8 именами полей и продуктовые страницы остаются в приложении; ядро HTTP/WS передаёт байты.",
+        "at": "2026-10-24T05:14:53Z",
+        "origin": "authored"
+      }
+    },
+    "e_producer": {
+      "name": {
+        "v": "Источник показаний",
+        "at": "2026-10-18T13:30:29Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "ПРИЛОЖЕНИЕ. Producers формируют сообщения, проверяют результаты WS send/SSE publish и координируют shutdown. Исходный payload после принятой копии можно переиспользовать. Sensors/BLE/TPMS принадлежат потребителю.",
+        "at": "2026-10-24T05:14:56Z",
+        "origin": "authored"
+      }
+    },
+    "e_wifi": {
+      "name": {
+        "v": "Wi-Fi и provisioning",
+        "at": "2026-10-18T13:30:31Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "ГРАНИЦА. Приложение владеет esp_netif, Wi-Fi, provisioning, credentials и подключением. NaWServer не инициализирует сеть и не монтирует storage.",
+        "at": "2026-10-24T05:14:57Z",
+        "origin": "authored"
+      }
+    },
+    "e_server": {
+      "name": {
+        "v": "Route + статическая таблица",
+        "at": "2026-10-18T16:16:57Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "РЕАЛИЗОВАНО. NaWServer::Server, src/http/web_server.cpp: borrowed static HandlerBase* table либо отдельная addHandler регистрация до begin(), без смешивания режимов. begin/end возвращают esp_err_t. Route: exact method/path, EndpointRef, Pipeline и копия AccessPolicy. Backend читает body<=4096 и готовит query/form до выбора HTTP handler/pipeline. ServerOptions::max_connections задаётся до запуска, default 7.",
+        "at": "2026-10-24T05:14:59Z",
+        "origin": "authored"
+      }
+    },
+    "e_request": {
+      "name": {
+        "v": "Request: входные данные",
+        "at": "2026-10-24T05:15:00Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "РЕАЛИЗОВАНО. include/NaWServer/request.h, src/http/web_request.cpp: read-only вход endpoint, без auth/send методов. Dispatcher владеет wrapper на стеке; RequestBody владеет vector bytes, body() даёт borrowed ByteView, copyBodyTo создаёт application-owned копию. Query/form binary-safe, borrowed string_view до уничтожения Request. Backend читает body полностью до handler, предел 4096.",
+        "at": "2026-10-24T05:15:02Z",
+        "origin": "authored"
+      }
+    },
+    "e_ws": {
+      "name": {
+        "v": "WS: сессии и очередь",
+        "at": "2026-10-18T13:30:36Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "РЕАЛИЗОВАНО. include/NaWServer/websocket.h, src/websocket/handler_ws.cpp: WebSocketEndpoint/WebSocketClient, session tokens, payload copy и httpd_queue_work. Кадр<=4096 bytes; не более 4 pending jobs/session. Client send возвращает WebSocketSendResult, broadcast — queued/rejected/first_error. Queued не ACK. QueueFull пока отклоняет отправку без close-on-overflow.",
+        "at": "2026-10-24T05:15:05Z",
+        "origin": "authored"
+      }
+    },
+    "e_auth": {
+      "name": {
+        "v": "HTTP: Auth + Access",
+        "at": "2026-10-18T16:16:48Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "Реализовано: AuthMiddleware вызывает borrowed provider; AccessMiddleware проверяет Principal. FixedBasicAuthenticator хранит заимствованные code credentials одного пользователя. Пустые credentials не открывают доступ.",
+        "at": "2026-10-18T16:16:50Z",
+        "origin": "authored"
+      }
+    },
+    "e_statics": {
+      "name": {
+        "v": "Статика и заголовки",
+        "at": "2026-10-18T13:30:39Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "РЕАЛИЗОВАНО. src/http/handler_static.cpp и web_response.cpp: плоские обработчики borrowed text/binary/gzip с явным MIME; middleware необязателен. Буферы должны переживать использование handlers. Response владеет bounded mutable headers, DefaultHeaders/ResponseOptions заимствованы. Filesystem mount и file/source serving не реализуются этой моделью.",
+        "at": "2026-10-24T05:15:06Z",
+        "origin": "authored"
+      }
+    },
+    "e_container": {
+      "name": {
+        "v": "Chain / makeChain / FixedChain",
+        "at": "2026-10-18T16:16:53Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "Композиция middleware теперь статическая: три фасада владеют массивом borrowed refs и используют один Pipeline::run. Старый WebServerContainer с owning wrappers удалён. Выполнение цепочки без heap; next действует в текущем вызове 0/1 раз.",
+        "at": "2026-10-18T16:16:56Z",
+        "origin": "authored"
+      }
+    },
+    "e_httpd": {
+      "name": {
+        "v": "ESP-IDF HTTPD",
+        "at": "2026-10-18T13:30:43Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "ТЕКУЩЕЕ. Native сервер, TCP sessions, URI dispatch, HTTPD task и control socket для work. is_websocket=true делает native handshake до callback; это граница проверки protected WS.",
+        "at": "2026-10-18T13:30:43Z",
+        "origin": "authored"
+      }
+    },
+    "e_tcp": {
+      "name": {
+        "v": "lwIP / TCP / Wi-Fi",
+        "at": "2026-10-28T04:52:54Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "ТЕКУЩЕЕ. Сетевой стек ESP-IDF и драйвер. Наличие очереди WS не устраняет ожидание медленного сокета внутри HTTPD task.",
+        "at": "2026-10-18T13:30:45Z",
+        "origin": "authored"
+      }
+    },
+    "e_rtos": {
+      "name": {
+        "v": "FreeRTOS / heap / timers",
+        "at": "2026-10-18T13:30:47Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "ТЕКУЩЕЕ. Планирование задач и общая память. Слой библиотеки не является отдельной задачей или изолированным процессом.",
+        "at": "2026-10-18T13:30:47Z",
+        "origin": "authored"
+      }
+    },
+    "e_pending": {
+      "name": {
+        "v": "WS auth / HTTPS: планы",
+        "at": "2026-10-24T05:15:09Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "НЕ РЕАЛИЗОВАНО. Защищённый native WS, HTTPS/WSS и универсальный WS drain/cancel. HTTP Route не защищает WS upgrade. SSE уже включён в библиотеку и имеет собственный stop/drain; его гарантии не распространяются на WS.",
+        "at": "2026-10-24T05:15:10Z",
+        "origin": "authored"
+      }
+    },
+    "e_model_note": {
+      "name": {
+        "v": "Карта авторская, не extract",
+        "at": "2026-10-18T13:30:50Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "ПРОИСХОЖДЕНИЕ. Авторская модель сверена с текущими файлами 2026-10-24 через MCP и чтение исходников. graph_status: extractors=[]; автоматического C++ графа нет. Карты не доказывают сборку, flash или текущую работу платы.",
+        "at": "2026-10-24T05:14:52Z",
+        "origin": "authored"
+      }
+    },
+    "e_layer_app": {
+      "name": {
+        "v": "Прикладной код",
+        "at": "2026-10-18T13:30:53Z",
+        "origin": "authored"
+      }
+    },
+    "e_layer_web": {
+      "name": {
+        "v": "Компонент NaWServer",
+        "at": "2026-10-24T05:14:49Z",
+        "origin": "authored"
+      }
+    },
+    "e_layer_sdk": {
+      "name": {
+        "v": "ESP-IDF и среда исполнения",
+        "at": "2026-10-18T13:31:00Z",
+        "origin": "authored"
+      }
+    },
+    "e_browser": {
+      "name": {
+        "v": "Браузер / панель",
+        "at": "2026-10-18T13:33:01Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "КЛИЕНТ. Браузер приложения использует HTTP, public WebSocket и SSE EventSource. UI/reconnect и профиль admission принадлежат приложению. HTTP/WS CBOR в демо содержит UTF-8 имена полей; SSE в демо передаёт текстовый JSON, библиотека задаёт только SSE framing.",
+        "at": "2026-10-24T05:15:16Z",
+        "origin": "authored"
+      }
+    },
+    "e_monitor": {
+      "name": {
+        "v": "Мониторинг / скрипт",
+        "at": "2026-10-18T13:33:03Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "ТЕКУЩЕЕ. Внешний клиент может читать публичные HTTP маршруты. Публичность задаётся приложением через выбор обработчиков, а не отсутствием пользователей в storage.",
+        "at": "2026-10-18T13:33:03Z",
+        "origin": "authored"
+      }
+    },
+    "e_app_store": {
+      "name": {
+        "v": "NVS / FS приложения",
+        "at": "2026-10-18T13:33:05Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "ГРАНИЦА. Монтирование NVS/FS и секреты принадлежат приложению. FixedBasicAuthenticator использует borrowed credentials из кода. Динамические user/role stores и RAM login sessions остаются планами.",
+        "at": "2026-10-24T05:15:19Z",
+        "origin": "authored"
+      }
+    },
+    "e_boundary_note": {
+      "name": {
+        "v": "HTTP + WS + SSE; auth — HTTP/SSE",
+        "at": "2026-10-24T05:15:12Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "ГРАНИЦА. HTTP и SSE Route поддерживают auth/access; native authenticated WS не поддержан. SSE только plain HTTPD 5.4. Wi-Fi, BLE/TPMS/LCD, NVS/FS mounts и продуктовый frontend принадлежат приложению. Shared frontend находится в корне frontend/; application CBOR использует UTF-8 text keys, без числового registry.",
+        "at": "2026-10-24T05:15:15Z",
+        "origin": "authored"
+      }
+    },
+    "e_firmware": {
+      "name": {
+        "v": "Прошивка потребителя",
+        "at": "2026-10-18T13:33:09Z",
+        "origin": "authored"
+      }
+    },
+    "e_library": {
+      "name": {
+        "v": "Граница NaWServer",
+        "at": "2026-10-24T05:14:50Z",
+        "origin": "authored"
+      }
+    },
+    "e_main_wait": {
+      "name": {
+        "v": "Ожидание периода",
+        "at": "2026-10-18T13:35:13Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "ТЕКУЩЕЕ. examples/minimal/main/main.cpp: vTaskDelay(5000). Задача main блокируется на задержке и освобождает CPU другим готовым задачам; память задачи сохраняется.",
+        "at": "2026-10-18T13:35:13Z",
+        "origin": "authored"
+      }
+    },
+    "e_publish": {
+      "name": {
+        "v": "WS send / SSE publish",
+        "at": "2026-10-24T05:15:21Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "PRODUCER TASK. WS send копирует payload и ставит SendWork в HTTPD; возвращает WebSocketSendResult или broadcast summary. SSE publish копирует Frame через try-lock в bounded Sessions и возвращает Publish, не ожидая сеть. Ни один Queued не означает доставку.",
+        "at": "2026-10-24T05:15:23Z",
+        "origin": "authored"
+      }
+    },
+    "e_http_select": {
+      "name": {
+        "v": "Ждать socket / work",
+        "at": "2026-10-18T13:35:17Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "ТЕКУЩЕЕ. HTTPD task ждёт select: клиентские сокеты или control socket для httpd_queue_work. Пока нет работы, планировщик выполняет другие задачи.",
+        "at": "2026-10-18T13:35:17Z",
+        "origin": "authored"
+      }
+    },
+    "e_body_recv": {
+      "name": {
+        "v": "Читать HTTP body",
+        "at": "2026-10-18T13:35:20Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "HTTPD TASK. Server::handle в src/http/web_server.cpp полностью читает body<=4096 через httpd_req_recv, готовит query/form, затем выбирает handler. Auth/policy выполняются после чтения body. Socket wait/timeout задерживает другие callbacks того же HTTPD task; pre-body auth и streaming upload отсутствуют.",
+        "at": "2026-10-24T05:15:24Z",
+        "origin": "authored"
+      }
+    },
+    "e_app_callback": {
+      "name": {
+        "v": "Вызвать handler / onMessage",
+        "at": "2026-10-18T13:35:22Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "HTTPD TASK. HTTP endpoints, pipeline и WS callbacks синхронны. Request/Response/Context/Next и client/data pointers заимствованы на callback. SSE open выполняет контролируемый native request handoff, не сохраняет эти wrappers или application callbacks. Долгие операции удерживают HTTPD.",
+        "at": "2026-10-24T05:15:27Z",
+        "origin": "authored"
+      }
+    },
+    "e_http_job": {
+      "name": {
+        "v": "Выполнить WS job",
+        "at": "2026-10-18T13:35:25Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "HTTPD TASK. src/websocket/handler_ws.cpp: transmit проверяет alive/session token/fd type, вызывает native WS send и освобождает SendWork. Это момент исполнения после producer send; SSE worker не использует этот WS job.",
+        "at": "2026-10-24T05:15:26Z",
+        "origin": "authored"
+      }
+    },
+    "e_socket_wait": {
+      "name": {
+        "v": "Отправка / timeout",
+        "at": "2026-10-18T13:35:27Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "ТЕКУЩЕЕ. httpd_ws_send_frame_async вызывается в HTTPD task. Она может ждать сокет; async в названии не гарантирует, что другие HTTP handlers продолжат исполняться.",
+        "at": "2026-10-18T13:35:27Z",
+        "origin": "authored"
+      }
+    },
+    "e_event_task": {
+      "name": {
+        "v": "ESP event loop",
+        "at": "2026-10-18T13:35:29Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "SDK TASK. Default ESP event loop вызывает Wi-Fi/IP callbacks отдельно от HTTPD. Приложение управляет запуском сервера и SSE после SDK prerequisites; конструкторы I/O не начинают.",
+        "at": "2026-10-24T05:15:29Z",
+        "origin": "authored"
+      }
+    },
+    "e_network_tasks": {
+      "name": {
+        "v": "lwIP и Wi-Fi tasks",
+        "at": "2026-10-18T13:35:32Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "ТЕКУЩЕЕ. Стек и драйвер имеют собственные задачи/очереди ESP-IDF. Они не дают отдельную HTTPD task каждому клиенту.",
+        "at": "2026-10-18T13:35:32Z",
+        "origin": "authored"
+      }
+    },
+    "e_tasks_note": {
+      "name": {
+        "v": "Задачи разделяют RAM",
+        "at": "2026-10-18T13:35:34Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "КОНТЕКСТЫ. FreeRTOS tasks разделяют RAM, это не изолированные процессы. HTTP/WS callbacks и WS transmit — HTTPD task; SSE I/O — один worker на запущенный EventSource. Producers и SDK tasks требуют согласованного shutdown.",
+        "at": "2026-10-24T05:15:31Z",
+        "origin": "authored"
+      }
+    },
+    "e_queue_note": {
+      "name": {
+        "v": "WS job ≠ SSE bounded Sessions",
+        "at": "2026-10-24T05:15:33Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "ДВА КОНТРАКТА. WS: ordinary heap payload copy + httpd_queue_work, pending<=4/session, явные результаты отказа. SSE: bounded Frame queues + try-lock publish + отдельный worker. Оба Queued означают принятие, не доставку. Нет общего deferred Next.",
+        "at": "2026-10-24T05:15:35Z",
+        "origin": "authored"
+      }
+    },
+    "e_task_main": {
+      "name": {
+        "v": "main · приложение",
+        "at": "2026-10-18T13:35:41Z",
+        "origin": "authored"
+      }
+    },
+    "e_task_http": {
+      "name": {
+        "v": "HTTPD task · общий сервер",
+        "at": "2026-10-18T13:35:43Z",
+        "origin": "authored"
+      }
+    },
+    "e_task_sdk": {
+      "name": {
+        "v": "Другие задачи ESP-IDF",
+        "at": "2026-10-18T13:35:45Z",
+        "origin": "authored"
+      }
+    },
+    "e_flow_payload": {
+      "name": {
+        "v": "1 · Данные приложения",
+        "at": "2026-10-18T13:38:02Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "ТЕКУЩЕЕ. Исходный буфер принадлежит producer. send(text) использует strlen; binary отправляется с явной длиной.",
+        "at": "2026-10-18T13:38:02Z",
+        "origin": "authored"
+      }
+    },
+    "e_flow_copy": {
+      "name": {
+        "v": "2 · Лимит и копия",
+        "at": "2026-10-18T13:38:05Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "ТЕКУЩЕЕ. queue(): alive, len<=4096, pending<4; резерв pending, SendWork + malloc payload, memcpy. При отказе ресурсы освобождаются в вызывающей задаче.",
+        "at": "2026-10-18T13:38:05Z",
+        "origin": "authored"
+      }
+    },
+    "e_flow_enqueue": {
+      "name": {
+        "v": "3 · Поставить WS job",
+        "at": "2026-10-18T13:38:07Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "ТЕКУЩЕЕ. httpd_queue_work(handle, transmit, work). Успех передаёт владение job HTTPD task. Отказ оставляет RAII cleanup в producer.",
+        "at": "2026-10-18T13:38:07Z",
+        "origin": "authored"
+      }
+    },
+    "e_flow_return": {
+      "name": {
+        "v": "4 · Queued или причина отказа",
+        "at": "2026-10-24T05:15:36Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "WS PRODUCER. WebSocketClient::send/send_binary возвращают WebSocketSendResult: Queued/Closed/TooLarge/QueueFull/NoMemory/QueueError/InvalidArgument. Broadcast возвращает queued/rejected/first_error. После принятой копии исходный буфер свободен для переиспользования; подтверждения доставки нет.",
+        "at": "2026-10-24T05:15:38Z",
+        "origin": "authored"
+      }
+    },
+    "e_flow_alive": {
+      "name": {
+        "v": "5 · Та же живая сессия?",
+        "at": "2026-10-18T13:38:12Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "ТЕКУЩЕЕ. transmit() на HTTPD task проверяет shared session alive и тип fd. Token относится к исходной сессии, поэтому повторное использование номера fd не отправляет старые данные новому клиенту.",
+        "at": "2026-10-18T13:38:12Z",
+        "origin": "authored"
+      }
+    },
+    "e_flow_send": {
+      "name": {
+        "v": "6 · TCP send / ожидание",
+        "at": "2026-10-18T13:38:14Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "ТЕКУЩЕЕ. httpd_ws_send_frame_async отправляет сохранённый payload. Ошибка инициирует закрытие. Медленный клиент может занять HTTPD task до timeout.",
+        "at": "2026-10-18T13:38:14Z",
+        "origin": "authored"
+      }
+    },
+    "e_flow_free": {
+      "name": {
+        "v": "7 · Освободить job",
+        "at": "2026-10-18T13:38:16Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "ТЕКУЩЕЕ. Деструктор SendWork освобождает payload и уменьшает pending на любом выходе transmit, включая закрытую сессию. shared_ptr сохраняет token до завершения job.",
+        "at": "2026-10-18T13:38:16Z",
+        "origin": "authored"
+      }
+    },
+    "e_flow_idle": {
+      "name": {
+        "v": "8 · Вернуться в HTTPD",
+        "at": "2026-10-18T13:38:18Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "ТЕКУЩЕЕ. После callback HTTPD снова обслуживает другие sockets/work. Память исходного request из другого callback в job не переносится.",
+        "at": "2026-10-18T13:38:18Z",
+        "origin": "authored"
+      }
+    },
+    "e_flow_failure": {
+      "name": {
+        "v": "Отказ: результат + cleanup",
+        "at": "2026-10-24T05:15:54Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "WS PRODUCER. При неверных аргументах, закрытой сессии, TooLarge, QueueFull, OOM или QueueError возвращается явная причина. RAII освобождает выделенное и возвращает pending. QueueFull сейчас не закрывает сессию; прикладной код обязан обработать отказ, не терять command replies молча.",
+        "at": "2026-10-24T05:15:57Z",
+        "origin": "authored"
+      }
+    },
+    "e_flow_lifetime": {
+      "name": {
+        "v": "Разные времена жизни",
+        "at": "2026-10-18T13:38:23Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "ВРЕМЯ ЖИЗНИ. Request/Response/Next/WS client/data pointers — только callback. WS payload copy и shared session token живут до SendWork cleanup. SSE native async request и owned Frames живут у EventSource до worker completion; стековые wrappers/callbacks не сохраняются. Stop SSE не доказывает drain очереди WS.",
+        "at": "2026-10-24T05:15:59Z",
+        "origin": "authored"
+      }
+    },
+    "e_flow_producer": {
+      "name": {
+        "v": "Вызывающая задача · передать владение копией",
+        "at": "2026-10-18T13:38:25Z",
+        "origin": "authored"
+      }
+    },
+    "e_flow_httpd": {
+      "name": {
+        "v": "HTTPD task · выполнить и освободить",
+        "at": "2026-10-18T13:38:29Z",
+        "origin": "authored"
+      }
+    },
+    "e_app_own": {
+      "name": {
+        "v": "1 · Создать владельцев",
+        "at": "2026-10-18T13:39:59Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "ВЛАДЕНИЕ. Приложение владеет providers, middleware, chains, Route, static handler table, DefaultHeaders/backing buffers и опциональным EventSource. Server заимствует конфигурацию и владеет native HTTPD. Конструкторы только связывают зависимости; SDK resources запускаются явно.",
+        "at": "2026-10-24T05:16:02Z",
+        "origin": "authored"
+      }
+    },
+    "e_app_register": {
+      "name": {
+        "v": "2 · Связать routes и chains",
+        "at": "2026-10-18T16:17:04Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "ДО ЗАПУСКА. Настроить static HandlerBase* table/Route либо отдельную addHandler регистрацию, headers/ResponseOptions/ServerOptions и providers. Смешивание режимов отвергается. Все borrowed объекты живут дольше успешно завершённого Server::end().",
+        "at": "2026-10-24T05:16:03Z",
+        "origin": "authored"
+      }
+    },
+    "e_app_begin": {
+      "name": {
+        "v": "4 · Server.begin(): проверить err",
+        "at": "2026-10-24T05:16:05Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "ЗАПУСК. Проверить esp_err_t от Server::begin(): validate handlers, httpd_start, URI registration. Настройка маршрутов закончена до begin. SSE service должен быть явно запущен до допуска SSE open. Native WS upgrade не получает HTTP Route auth.",
+        "at": "2026-10-24T05:16:06Z",
+        "origin": "authored"
+      }
+    },
+    "e_app_incoming": {
+      "name": {
+        "v": "5 · HTTPD: Request / Response",
+        "at": "2026-10-24T05:16:08Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "РАБОТА. Stack Request/Response, request-local Context/Principal. EndpointRef поддерживает SendResult(Request&,Response&), SendResult(Response&) и Result(Context&). Синхронный Next 0/1; повторный Next не повторяет endpoint. SSE External handoff запрещает второй ответ и не сохраняет stack wrappers.",
+        "at": "2026-10-24T05:16:10Z",
+        "origin": "authored"
+      }
+    },
+    "e_app_outgoing": {
+      "name": {
+        "v": "6 · WS send / SSE publish",
+        "at": "2026-10-24T05:16:11Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "РАБОТА. Producers вызывают WS send или SSE publish при согласованном lifetime. Проверять WebSocketSendResult/broadcast summary/Publish. Payload копируется; Queued не доставка. Не отправлять параллельно разрушению owners/остановке.",
+        "at": "2026-10-24T05:16:14Z",
+        "origin": "authored"
+      }
+    },
+    "e_app_return": {
+      "name": {
+        "v": "7 · Вернуть управление",
+        "at": "2026-10-24T05:16:15Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "КОНТРАКТ СЕЙЧАС. Callback должен быстро завершиться; main может ждать период через vTaskDelay. Долгие операции не должны удерживать HTTPD task.",
+        "at": "2026-10-18T13:40:10Z",
+        "origin": "authored"
+      }
+    },
+    "e_app_quiesce": {
+      "name": {
+        "v": "8 · Остановить producers",
+        "at": "2026-10-24T05:16:18Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "ОСТАНОВКА. Прекратить новые WS sends, SSE publishers/admission и согласовать producer задачи. Затем успешно завершить EventSource.stop перед Server::end. Универсального публичного drain/cancel ожидающих WS jobs по-прежнему нет.",
+        "at": "2026-10-24T05:16:20Z",
+        "origin": "authored"
+      }
+    },
+    "e_app_stop": {
+      "name": {
+        "v": "10 · Server.end() вне callback",
+        "at": "2026-10-24T05:16:21Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "ОСТАНОВКА. После успешного SSE stop вызвать Server::end из управляющей задачи, никогда из HTTP/WS callback. Проверить esp_err_t; при ошибке сохранить borrowed owners. WS full-queue shutdown и long-run не считать доказанными SSE тестами.",
+        "at": "2026-10-24T05:16:23Z",
+        "origin": "authored"
+      }
+    },
+    "e_app_destroy": {
+      "name": {
+        "v": "11 · Освободить owners",
+        "at": "2026-10-24T05:16:25Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "ОСТАНОВКА. После успешных EventSource.stop и Server::end можно уничтожить handlers, providers, chains, credentials, captures и backing buffers. Не допускать новых sends/open/publish во время разрушения.",
+        "at": "2026-10-24T05:16:27Z",
+        "origin": "authored"
+      }
+    },
+    "e_app_contract": {
+      "name": {
+        "v": "next() синхронный · 0/1 вызов",
+        "at": "2026-10-18T16:17:12Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "Next нельзя сохранять для другой задачи или async callback. HTTPD возвращается к обработке других запросов только после завершения текущего callback. Перед stop приложение прекращает producers.",
+        "at": "2026-10-18T16:17:15Z",
+        "origin": "authored"
+      }
+    },
+    "e_app_shutdown_gap": {
+      "name": {
+        "v": "SSE drain есть; WS stop — проверить",
+        "at": "2026-10-24T05:16:29Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "ГРАНИЦА ПОДТВЕРЖДЕНИЯ. docs/readme_sse_library_verification_ru.md фиксирует C3 stop с pending Frames. Это исторический SSE прогон, не новая проверка платы и не доказательство cleanup WS jobs, оставшихся в HTTPD queue при stop. WS load/soak остаются открыты.",
+        "at": "2026-10-24T05:16:31Z",
+        "origin": "authored"
+      }
+    },
+    "e_app_setup_zone": {
+      "name": {
+        "v": "До запуска · приложение владеет объектами",
+        "at": "2026-10-18T13:40:25Z",
+        "origin": "authored"
+      }
+    },
+    "e_app_running_zone": {
+      "name": {
+        "v": "Работа · callbacks и producer",
+        "at": "2026-10-18T13:40:28Z",
+        "origin": "authored"
+      }
+    },
+    "e_app_stop_zone": {
+      "name": {
+        "v": "Остановка · координация обязательна",
+        "at": "2026-10-18T13:40:30Z",
+        "origin": "authored"
+      }
+    },
+    "e_access_public": {
+      "name": {
+        "v": "Public policy",
+        "at": "2026-10-18T13:42:13Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "РЕАЛИЗОВАНО. Явная public AccessPolicy допускает endpoint без credentials, включая явно публичный SSE Route. Пустая цепочка допустима. Отсутствующий/неуспешный provider не превращает protected route в public.",
+        "at": "2026-10-24T05:16:33Z",
+        "origin": "authored"
+      }
+    },
+    "e_access_protected": {
+      "name": {
+        "v": "Required permission",
+        "at": "2026-10-18T13:42:15Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "РЕАЛИЗОВАНО. Route exact method/path и AccessPolicy::require требуют identity и все required bits. HTTP backend читает body<=4096 и готовит параметры ДО handler/pipeline; pre-body auth не реализована. SSE open следует после auth/policy, native WS upgrade проходит отдельно.",
+        "at": "2026-10-24T05:16:35Z",
+        "origin": "authored"
+      }
+    },
+    "e_authenticator": {
+      "name": {
+        "v": "AuthMiddleware",
+        "at": "2026-10-18T16:17:28Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "Для закрытой policy borrowed AuthenticatorRef вызывает provider и устанавливает Principal. Публичная policy не требует credentials. Неверные/пустые credentials дают Unauthorized.",
+        "at": "2026-10-18T16:17:31Z",
+        "origin": "authored"
+      }
+    },
+    "e_authorizer": {
+      "name": {
+        "v": "Access + проверка перед endpoint",
+        "at": "2026-10-18T16:17:34Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "AccessMiddleware и terminal gate проверяют identity и все required permission bits. Пропущенный access middleware не открывает endpoint. Защита HTTP, не native WS upgrade.",
+        "at": "2026-10-18T16:17:36Z",
+        "origin": "authored"
+      }
+    },
+    "e_principal": {
+      "name": {
+        "v": "Principal: ID · permissions",
+        "at": "2026-10-18T16:17:22Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "Реализованные request-local данные: authenticated, user_id и 32-bit permission mask. Identity очищается при каждом Pipeline::run. Revision, каталоги ролей и login sessions пока не реализованы.",
+        "at": "2026-10-18T16:17:26Z",
+        "origin": "authored"
+      }
+    },
+    "e_public_readings": {
+      "name": {
+        "v": "Показания / статистика",
+        "at": "2026-10-18T13:42:23Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "ПРОДУКТОВОЕ ТРЕБОВАНИЕ. Чтение выбранных показаний может быть доступно без входа. Какие показания публичны, определяет приложение.",
+        "at": "2026-10-18T13:42:23Z",
+        "origin": "authored"
+      }
+    },
+    "e_private_commands": {
+      "name": {
+        "v": "Настройки / управление",
+        "at": "2026-10-18T13:42:26Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "ПРОДУКТОВОЕ ТРЕБОВАНИЕ. Прикладная команда вызывается после допуска. Управление пользователями и настройками требует разных прав; одного факта входа недостаточно.",
+        "at": "2026-10-18T13:42:26Z",
+        "origin": "authored"
+      }
+    },
+    "e_user_store": {
+      "name": {
+        "v": "FixedBasicAuthenticator",
+        "at": "2026-10-18T16:17:39Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "Реализован один фиксированный пользователь: borrowed const username/password, user_id и permission mask. Конфигурация в коде/define; NVS/FS не подключаются. Будущие providers используют тот же контракт.",
+        "at": "2026-10-18T16:17:41Z",
+        "origin": "authored"
+      }
+    },
+    "e_roles_catalog": {
+      "name": {
+        "v": "Роли / NVS / FS · планы",
+        "at": "2026-10-18T16:17:44Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "Опциональный будущий bounded каталог пользователей/ролей и разные storage providers. Текущий Access проверяет mask в Principal, а не читает каталог.",
+        "at": "2026-10-18T16:17:48Z",
+        "origin": "authored"
+      }
+    },
+    "e_sessions_ram": {
+      "name": {
+        "v": "Сессии RAM · планы",
+        "at": "2026-10-18T16:17:50Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "ПРЕДЛОЖЕНИЕ. Ограниченная таблица, expiry и auth revision. Не писать flash на каждый HTTP запрос. Перезапуск устройства инвалидирует неперсистентные сессии.",
+        "at": "2026-10-18T13:42:32Z",
+        "origin": "authored"
+      }
+    },
+    "e_build_choice": {
+      "name": {
+        "v": "Feature split · пока план",
+        "at": "2026-10-18T16:17:54Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "ПРЕДЛОЖЕНИЕ. При сборке выбираются auth, permissions, backend, WS/SSE и лимиты. Неподдержанные комбинации должны отклоняться при конфигурации/запуске. Это схема будущего API, не уже существующая функциональность.",
+        "at": "2026-10-18T13:42:35Z",
+        "origin": "authored"
+      }
+    },
+    "e_access_phase": {
+      "name": {
+        "v": "HTTP/SSE: Route; WS auth нет",
+        "at": "2026-10-24T05:16:37Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "ТЕКУЩЕЕ. HTTP/Response и библиотечный SSE имеют сохранённые C3 проверки 19.10.2026. Нового build/flash в обновлении модели нет. Native WS upgrade происходит до application callback: HTTP pipeline не авторизует его. TLS/send overrides/external forced SSE close не поддержаны.",
+        "at": "2026-10-24T05:16:38Z",
+        "origin": "authored"
+      }
+    },
+    "e_access_routes_zone": {
+      "name": {
+        "v": "Маршруты · реализовано",
+        "at": "2026-10-18T16:17:17Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "РЕАЛИЗОВАНО. HTTP Route policies, body<=4096 до pipeline. SSE подключается через обычный HTTP Route с auth/access до open. Это не pre-body auth и не pre-handshake WS auth.",
+        "at": "2026-10-24T05:16:40Z",
+        "origin": "authored"
+      }
+    },
+    "e_access_guards_zone": {
+      "name": {
+        "v": "next() pipeline · реализовано",
+        "at": "2026-10-18T16:17:19Z",
+        "origin": "authored"
+      }
+    },
+    "e_access_app_zone": {
+      "name": {
+        "v": "Прикладные handlers",
+        "at": "2026-10-18T13:42:43Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "ПРИЛОЖЕНИЕ. Public readings, protected commands и авторизованное SSE open — конечные handlers. Прикладные DTO/CBOR text keys и JSON содержимое SSE проверяет endpoint, не transport library.",
+        "at": "2026-10-24T05:16:42Z",
+        "origin": "authored"
+      }
+    },
+    "e_access_data_zone": {
+      "name": {
+        "v": "Fixed provider готов · роли, storage и сессии — далее",
+        "at": "2026-10-18T16:17:52Z",
+        "origin": "authored"
+      }
+    },
+    "r_flow_alive_flow_free_data_flow": {
+      "fromLabel": {
+        "v": "нет: пропустить send",
+        "at": "2026-10-18T13:43:49Z",
+        "origin": "authored"
+      }
+    },
+    "e_response": {
+      "name": {
+        "v": "Response: отправка и заголовки",
+        "at": "2026-10-24T05:14:15Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "РЕАЛИЗОВАНО. include/NaWServer/response.h, src/http/web_response.cpp. Единственный синхронный writer; SendResult, bounded headers, borrowed DefaultHeaders/ResponseOptions и body до возврата send. Dispatcher создаёт Request/Response на стеке. SSE handoff использует resolveHeaders/claimExternal, общего deferred HTTP API нет.",
+        "at": "2026-10-24T05:14:15Z",
+        "origin": "authored"
+      }
+    },
+    "e_sse": {
+      "name": {
+        "v": "SSE: EventSource",
+        "at": "2026-10-24T05:14:17Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "РЕАЛИЗОВАНО. include/NaWServer/sse.h; единственный runtime src/sse. Приложение владеет EventSource; start после SDK init запускает один worker. Авторизованный Route вызывает open(Request&,Response&). publish копирует Frame через try-lock в bounded Sessions; Queued не ACK. Plain native HTTPD 5.4, без TLS/send overrides/external forced close. Stop producers → успешно stop(timeout_ms) → Server::end().",
+        "at": "2026-10-24T05:14:17Z",
+        "origin": "authored"
+      }
+    },
+    "e_task_sse": {
+      "name": {
+        "v": "SSE worker · на EventSource",
+        "at": "2026-10-24T05:14:19Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "КОНТЕКСТ ИСПОЛНЕНИЯ. EventSource::start создаёт одну FreeRTOS task через IdfAdapter. HTTP Route выполняет admission/handoff на HTTPD task; bounded send/close/async complete выполняются SSE worker. Отдельной задачи на подписчика нет.",
+        "at": "2026-10-24T05:14:19Z",
+        "origin": "authored"
+      }
+    },
+    "e_sse_handoff": {
+      "name": {
+        "v": "Route: open и handoff",
+        "at": "2026-10-24T05:14:20Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "HTTPD TASK. После auth/policy: resolveHeaders → owned preface → reserve → claimExternal → activate. Scoped rollback до claim оставляет обычный ответ возможным; после External только abort/worker cleanup. Request/Response/Next/application callbacks не сохраняются.",
+        "at": "2026-10-24T05:14:20Z",
+        "origin": "authored"
+      }
+    },
+    "e_sse_worker_step": {
+      "name": {
+        "v": "SSE: bounded send steps",
+        "at": "2026-10-24T05:14:22Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "SSE WORKER. Sessions.next выбирает ограниченный Step; plain socket send(MSG_DONTWAIT), retry EAGAIN/EWOULDBLOCK/EINTR и учёт deadlines. Не использует очередь WS/httpd_queue_work. Heartbeat idle и event stall/deadline различаются.",
+        "at": "2026-10-24T05:14:22Z",
+        "origin": "authored"
+      }
+    },
+    "e_sse_worker_close": {
+      "name": {
+        "v": "SSE: shutdown и complete",
+        "at": "2026-10-24T05:14:23Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "SSE WORKER. При закрытии сначала shutdown исходного сокета, затем httpd_req_async_handler_complete, освобождение slot/queued bytes. Generation/serial отсекают устаревшие шаги. stop ждёт active=0; false требует сохранить объект/сервер и повторить drain.",
+        "at": "2026-10-24T05:14:23Z",
+        "origin": "authored"
+      }
+    },
+    "e_flow_sse": {
+      "name": {
+        "v": "SSE · owned request, Frame и bounded Sessions",
+        "at": "2026-10-24T05:14:25Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "Отдельный контракт SSE, не WS job и не deferred Next. open передаёт native async request только после успешного claim/activate. publish передаёт копию Frame; worker владеет выполнением и завершением запроса.",
+        "at": "2026-10-24T05:14:25Z",
+        "origin": "authored"
+      }
+    },
+    "e_sse_flow_open": {
+      "name": {
+        "v": "SSE: Route → open",
+        "at": "2026-10-24T05:14:26Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "Auth/policy выполняются до open. Заголовки разрешаются и preface копируется до reserve; claimExternal → activate завершают handoff. До claim scoped rollback позволяет обычный ответ; после claim нет второго wrapper send.",
+        "at": "2026-10-24T05:14:26Z",
+        "origin": "authored"
+      }
+    },
+    "e_sse_flow_queue": {
+      "name": {
+        "v": "Sessions: bounded frames",
+        "at": "2026-10-24T05:14:28Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "4 slots; по умолчанию 3 pending/client, Frame до 768 encoded bytes, 2304 bytes/client и 8192 total. Preface и Frames принадлежат сервису. Individual overflow/stall закрывает сессию; глобальный отказ не обвиняет клиента.",
+        "at": "2026-10-24T05:14:28Z",
+        "origin": "authored"
+      }
+    },
+    "e_sse_flow_write": {
+      "name": {
+        "v": "Worker: send / deadlines",
+        "at": "2026-10-24T05:14:29Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "Worker выбирает bounded Step, отправляет MSG_DONTWAIT и учитывает записанные bytes. Очередь не доказывает доставку/ACK. Столкновения generation/serial не позволяют применить устаревший шаг.",
+        "at": "2026-10-24T05:14:29Z",
+        "origin": "authored"
+      }
+    },
+    "e_sse_flow_complete": {
+      "name": {
+        "v": "Close → async complete",
+        "at": "2026-10-24T05:14:31Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "При закрытии shutdown перед async complete, затем slot освобождается. Stop publishers/admission → успешно EventSource.stop(timeout_ms) → Server::end(). HTTP wrappers/Next в worker не переносятся.",
+        "at": "2026-10-24T05:14:31Z",
+        "origin": "authored"
+      }
+    },
+    "e_sse_flow_publish": {
+      "name": {
+        "v": "publish: копия Frame",
+        "at": "2026-10-24T05:14:32Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "Producer сохраняет исходный буфер после возврата: Frame скопирован через try-lock, сетевого ожидания у publish нет. Результаты Publish включают Queued/Busy/IndividualOverflow/GlobalFull и другие отказы, согласно session.hpp. Нет replay/history или автоматического coalescing.",
+        "at": "2026-10-24T05:14:32Z",
+        "origin": "authored"
+      }
+    },
+    "e_app_sse_start": {
+      "name": {
+        "v": "3 · SSE start при использовании",
+        "at": "2026-10-24T05:14:34Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "После SDK prerequisites явно вызвать EventSource.start и проверить bool до допуска SSE-запросов. Конструктор runtime не запускает. Для приложения без SSE этот шаг пропускается. Настроенные Route/handlers должны переживать Server::end().",
+        "at": "2026-10-24T05:14:34Z",
+        "origin": "authored"
+      }
+    },
+    "e_app_sse_stop": {
+      "name": {
+        "v": "9 · SSE stop: дождаться успеха",
+        "at": "2026-10-24T05:14:35Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "После остановки producers/admission вызвать EventSource.stop(timeout_ms). При false сохранить EventSource, HTTPD и backing objects, повторить drain. Только успешное завершение разрешает Server::end(); гарантия SSE не переносится на очередь WS.",
+        "at": "2026-10-24T05:14:35Z",
+        "origin": "authored"
+      }
+    },
+    "e_access_sse_open": {
+      "name": {
+        "v": "SSE: Route → open",
+        "at": "2026-10-24T05:14:37Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "Защищённый HTTP Route проверяет Principal/permissions перед EventSource.open. Отказ 401/403 происходит до async begin/первых байтов SSE. Политика может быть Public по явному решению приложения. Native WS upgrade этим не защищён.",
+        "at": "2026-10-24T05:14:37Z",
+        "origin": "authored"
+      }
+    },
+    "e_layers_http_server": {
+      "name": {
+        "v": "HttpServer · общий HTTP API",
+        "at": "2026-10-28T04:52:16Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "Общий диспетчер маршрутов, Request/Response и middleware; заимствует HttpBackend. include/NaWServer/http_server.h.",
+        "at": "2026-10-28T04:52:16Z",
+        "origin": "authored"
+      }
+    },
+    "e_layers_http_backend": {
+      "name": {
+        "v": "HttpBackend · выбор HTTP-ветви",
+        "at": "2026-10-28T04:52:16Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "Граница замены backend: start/stop и HttpRequestHandler/HttpExchange; последовательные callbacks. Возможности WS/SSE и настройки ветвей проверяются отдельно. include/NaWServer/http_backend.h.",
+        "at": "2026-10-28T04:52:16Z",
+        "origin": "authored"
+      }
+    },
+    "e_layers_tcp_backend": {
+      "name": {
+        "v": "TcpHttpBackend · наш HTTP/WS",
+        "at": "2026-10-28T04:52:16Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "Собственный wire engine и управление соединениями NaWServer. Получает tcp::Transport; не использует esp_http_server. backends/tcp.h.",
+        "at": "2026-10-28T04:52:16Z",
+        "origin": "authored"
+      }
+    },
+    "e_layers_idf_transport": {
+      "name": {
+        "v": "tcp::IdfTransport · адаптер сокетов",
+        "at": "2026-10-28T04:52:16Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "Часть NaWServer. Реализует tcp::Transport через lwIP sockets. Не инициализирует Wi-Fi или esp_netif. backends/esp_idf_tcp.h.",
+        "at": "2026-10-28T04:52:16Z",
+        "origin": "authored"
+      }
+    },
+    "e_layers_httpd_backend": {
+      "name": {
+        "v": "EspIdfHttpBackend · адаптер HTTPD",
+        "at": "2026-10-28T04:52:16Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "Адаптер NaWServer к ESP-IDF esp_http_server / HTTPD. Реализует HttpBackend, владеет native HTTPD resources. backends/esp_idf.h. HTTPD работает с сокетами SDK напрямую, не через tcp::Transport.",
+        "at": "2026-10-28T04:53:31Z",
+        "origin": "authored"
+      }
+    },
+    "e_layers_server_facade": {
+      "name": {
+        "v": "Server · фасад только HTTPD",
+        "at": "2026-10-28T04:52:16Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "Содержит EspIdfHttpBackend по значению. Не выбирает TCP автоматически и не является фасадом HttpServer. server.h.",
+        "at": "2026-10-28T04:52:16Z",
+        "origin": "authored"
+      }
+    },
+    "e_layers_transport_swap": {
+      "name": {
+        "v": "tcp::Transport → Windows / Linux",
+        "at": "2026-10-28T04:52:16Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "Граница замены — интерфейс tcp::Transport: вместо tcp::IdfTransport можно передать tcp::WindowsTransport или tcp::LinuxTransport, сохранив TcpHttpBackend и общий HTTP API. Сокеты тогда принадлежат соответствующей ОС. EspIdfHttpBackend/HTTPD этот интерфейс не используют. WS/SSE adapters, настройки и жизненный цикл требуют отдельной проверки.",
+        "at": "2026-10-28T04:53:59Z",
+        "origin": "authored"
+      }
+    },
+    "e_layers_netif": {
+      "name": {
+        "v": "esp_netif · драйвер Wi-Fi / Ethernet",
+        "at": "2026-10-28T04:53:31Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "Нижний сетевой интерфейс и драйверы принадлежат ESP-IDF. Инициализация и подключение сети — ответственность приложения.",
+        "at": "2026-10-28T04:52:16Z",
+        "origin": "authored"
+      }
+    },
+    "e_layers_caveat": {
+      "name": {
+        "v": "WS/SSE: адаптеры и лимиты отдельно",
+        "at": "2026-10-28T04:52:17Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "Замена backend не обещает одинаковых WS/SSE возможностей. Сеть запускает приложение; схема авторская, сверена с заголовками 28.10.2026.",
+        "at": "2026-10-28T04:52:17Z",
+        "origin": "authored"
+      }
+    },
+    "e_layers_details": {
+      "name": {
+        "v": "Справочные детали · сохранены без удаления сущностей",
+        "at": "2026-10-28T04:53:31Z",
+        "origin": "authored"
+      }
+    },
+    "e_layers_lwip": {
+      "name": {
+        "v": "lwIP sockets / TCP/IP",
+        "at": "2026-10-28T04:52:54Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "Общий нижний стек ESP-IDF для обеих ветвей. IdfTransport — адаптер NaWServer, а не другой TCP/IP stack.",
+        "at": "2026-10-28T04:52:54Z",
+        "origin": "authored"
+      }
+    },
+    "e_layers_httpd_label": {
+      "name": {
+        "v": "HTTPD = ESP-IDF esp_http_server",
+        "at": "2026-10-28T04:53:31Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "SDK предоставляет HTTP и native WebSocket. Подпись относится к существующему e_httpd, оставленному без переименования ради остальных видов.",
+        "at": "2026-10-28T04:53:31Z",
+        "origin": "authored"
+      }
+    },
+    "v_capabilities": {
+      "name": {
+        "v": "07 · Возможности NaWServer · 06.11.2026",
+        "at": "2026-11-06T15:30:06Z",
+        "origin": "authored"
+      }
+    },
+    "e_cap_app": {
+      "name": {
+        "v": "Приложение и демо · сеть, FS, OTA и интерфейс принадлежат приложению",
+        "at": "2026-11-06T15:30:07Z",
+        "origin": "authored"
+      }
+    },
+    "e_cap_core": {
+      "name": {
+        "v": "NaWServer · единый C++17 HTTP / WS / SSE · функции подключаются по необходимости",
+        "at": "2026-11-06T15:30:09Z",
+        "origin": "authored"
+      }
+    },
+    "e_cap_platform": {
+      "name": {
+        "v": "Платформенные адаптеры · сокеты, задачи, mutex и память",
+        "at": "2026-11-06T15:30:10Z",
+        "origin": "authored"
+      }
+    },
+    "e_cap_browser": {
+      "name": {
+        "v": "Браузер · панель / несколько вкладок",
+        "at": "2026-11-06T15:30:12Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "Авторская обзорная карта текущего кода, 06.11.2026; не результат C++ extractor.",
+        "at": "2026-11-06T15:30:12Z",
+        "origin": "authored"
+      }
+    },
+    "e_cap_api": {
+      "name": {
+        "v": "Автоматизация · HTTP API",
+        "at": "2026-11-06T15:30:12Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "Авторская обзорная карта текущего кода, 06.11.2026; не результат C++ extractor.",
+        "at": "2026-11-06T15:30:12Z",
+        "origin": "authored"
+      }
+    },
+    "e_cap_agent": {
+      "name": {
+        "v": "Инструменты · MCP / JSON",
+        "at": "2026-11-06T15:30:13Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "Авторская обзорная карта текущего кода, 06.11.2026; не результат C++ extractor.",
+        "at": "2026-11-06T15:30:13Z",
+        "origin": "authored"
+      }
+    },
+    "e_cap_ui": {
+      "name": {
+        "v": "Web UI · HTML / Vue / свои ресурсы",
+        "at": "2026-11-06T15:30:14Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "Авторская обзорная карта текущего кода, 06.11.2026; не результат C++ extractor.",
+        "at": "2026-11-06T15:30:14Z",
+        "origin": "authored"
+      }
+    },
+    "e_cap_handlers": {
+      "name": {
+        "v": "Маршруты / настройки / телеметрия",
+        "at": "2026-11-06T15:30:14Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "Авторская обзорная карта текущего кода, 06.11.2026; не результат C++ extractor.",
+        "at": "2026-11-06T15:30:14Z",
+        "origin": "authored"
+      }
+    },
+    "e_cap_services": {
+      "name": {
+        "v": "FS / SD · OTA · web / console",
+        "at": "2026-11-06T15:30:15Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "Авторская обзорная карта текущего кода, 06.11.2026; не результат C++ extractor.",
+        "at": "2026-11-06T15:30:15Z",
+        "origin": "authored"
+      }
+    },
+    "e_cap_http": {
+      "name": {
+        "v": "HTTP · маршруты / upload / download",
+        "at": "2026-11-06T15:30:16Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "Авторская обзорная карта текущего кода, 06.11.2026; не результат C++ extractor.",
+        "at": "2026-11-06T15:30:16Z",
+        "origin": "authored"
+      }
+    },
+    "e_cap_realtime": {
+      "name": {
+        "v": "WebSocket + SSE · события / команды",
+        "at": "2026-11-06T15:30:16Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "Авторская обзорная карта текущего кода, 06.11.2026; не результат C++ extractor.",
+        "at": "2026-11-06T15:30:16Z",
+        "origin": "authored"
+      }
+    },
+    "e_cap_policy": {
+      "name": {
+        "v": "Middleware · auth / права / квоты",
+        "at": "2026-11-06T15:30:17Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "Авторская обзорная карта текущего кода, 06.11.2026; не результат C++ extractor.",
+        "at": "2026-11-06T15:30:17Z",
+        "origin": "authored"
+      }
+    },
+    "e_cap_tx": {
+      "name": {
+        "v": "Общая TX · worker / cooperative",
+        "at": "2026-11-06T15:30:18Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "Авторская обзорная карта текущего кода, 06.11.2026; не результат C++ extractor.",
+        "at": "2026-11-06T15:30:18Z",
+        "origin": "authored"
+      }
+    },
+    "e_cap_buffers": {
+      "name": {
+        "v": "Лимиты / пулы / lazy / аллокаторы",
+        "at": "2026-11-06T15:30:18Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "Авторская обзорная карта текущего кода, 06.11.2026; не результат C++ extractor.",
+        "at": "2026-11-06T15:30:18Z",
+        "origin": "authored"
+      }
+    },
+    "e_cap_keys": {
+      "name": {
+        "v": "API keys · NVM / page ID (метка)",
+        "at": "2026-11-06T15:35:10Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "Секрет API подтверждается сервисом ключей; page ID — случайная несекретная метка документа для учёта, не аутентификация.",
+        "at": "2026-11-06T15:35:11Z",
+        "origin": "authored"
+      }
+    },
+    "e_cap_diagnostics": {
+      "name": {
+        "v": "Статистика памяти / TX / recovery",
+        "at": "2026-11-06T15:30:20Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "Авторская обзорная карта текущего кода, 06.11.2026; не результат C++ extractor.",
+        "at": "2026-11-06T15:30:20Z",
+        "origin": "authored"
+      }
+    },
+    "e_cap_json": {
+      "name": {
+        "v": "JSON · bounded / yyjson / RapidJSON",
+        "at": "2026-11-06T15:30:20Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "Авторская обзорная карта текущего кода, 06.11.2026; не результат C++ extractor.",
+        "at": "2026-11-06T15:30:20Z",
+        "origin": "authored"
+      }
+    },
+    "e_cap_lifecycle": {
+      "name": {
+        "v": "Keep-alive / deadlines / Drop",
+        "at": "2026-11-06T15:30:21Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "Авторская обзорная карта текущего кода, 06.11.2026; не результат C++ extractor.",
+        "at": "2026-11-06T15:30:21Z",
+        "origin": "authored"
+      }
+    },
+    "e_cap_esp": {
+      "name": {
+        "v": "ESP32 · ESP-IDF / lwIP / FreeRTOS",
+        "at": "2026-11-06T15:30:22Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "Авторская обзорная карта текущего кода, 06.11.2026; не результат C++ extractor.",
+        "at": "2026-11-06T15:30:22Z",
+        "origin": "authored"
+      }
+    },
+    "e_cap_rp": {
+      "name": {
+        "v": "RP2350 · Pico SDK / lwIP / FreeRTOS",
+        "at": "2026-11-06T15:30:22Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "Авторская обзорная карта текущего кода, 06.11.2026; не результат C++ extractor.",
+        "at": "2026-11-06T15:30:22Z",
+        "origin": "authored"
+      }
+    },
+    "e_cap_host": {
+      "name": {
+        "v": "Windows / Linux · sockets / threads",
+        "at": "2026-11-06T15:30:23Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "Авторская обзорная карта текущего кода, 06.11.2026; не результат C++ extractor.",
+        "at": "2026-11-06T15:30:23Z",
+        "origin": "authored"
+      }
+    },
+    "e_cap_memory": {
+      "name": {
+        "v": "Память: static / heap / PSRAM · размещение и бюджеты",
+        "at": "2026-11-06T15:30:23Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "Авторская обзорная карта текущего кода, 06.11.2026; не результат C++ extractor.",
+        "at": "2026-11-06T15:30:24Z",
+        "origin": "authored"
+      }
+    },
+    "v_data_paths": {
+      "name": {
+        "v": "08 · HTTP / WS / SSE / OTA · данные и события",
+        "at": "2026-11-06T15:30:45Z",
+        "origin": "authored"
+      }
+    },
+    "e_data_ingress": {
+      "name": {
+        "v": "Вход и раннее решение",
+        "at": "2026-11-06T15:30:45Z",
+        "origin": "authored"
+      }
+    },
+    "e_data_application": {
+      "name": {
+        "v": "HTTP / WS / SSE · короткие callbacks и источники приложения",
+        "at": "2026-11-06T15:30:47Z",
+        "origin": "authored"
+      }
+    },
+    "e_data_output": {
+      "name": {
+        "v": "Выход · очередь и платформа",
+        "at": "2026-11-06T15:30:48Z",
+        "origin": "authored"
+      }
+    },
+    "e_data_headers": {
+      "name": {
+        "v": "TCP → ограниченные заголовки",
+        "at": "2026-11-06T15:30:49Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "Сокеты SDK/OS; ограничены число соединений, заголовки и сроки.",
+        "at": "2026-11-06T15:30:49Z",
+        "origin": "authored"
+      }
+    },
+    "e_data_route": {
+      "name": {
+        "v": "Маршрут → ранняя HeaderChain",
+        "at": "2026-11-06T15:44:02Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "Общая ранняя цепочка применяется до тела, WS upgrade 101 и открытия SSE: auth, identity, quotas по включённым функциям. Обычный endpoint middleware не заменяет эту проверку.",
+        "at": "2026-11-06T15:44:03Z",
+        "origin": "authored"
+      }
+    },
+    "e_data_keys": {
+      "name": {
+        "v": "API keys ↔ адаптер NVM",
+        "at": "2026-11-06T15:30:51Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "Необязательный независимый сервис ключей с NVS, Flash или файловым адаптером.",
+        "at": "2026-11-06T15:30:51Z",
+        "origin": "authored"
+      }
+    },
+    "e_data_drop": {
+      "name": {
+        "v": "Drop → cancel → close I/O owner",
+        "at": "2026-11-06T15:30:52Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "Терминальный отказ отменяет ожидающую передачу; native close выполняет владелец I/O.",
+        "at": "2026-11-06T15:30:52Z",
+        "origin": "authored"
+      }
+    },
+    "e_data_callbacks": {
+      "name": {
+        "v": "Callbacks: коротко и последовательно",
+        "at": "2026-11-06T15:30:52Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "Callbacks выполняются последовательно и коротко. Уступающее ожидание тела/TX требует скомпилированного managed engine и включённого TcpOptions.http_memory.enabled. Долгие прикладные задачи оформляют отдельно с bounded job-id.",
+        "at": "2026-11-06T15:47:34Z",
+        "origin": "authored"
+      }
+    },
+    "e_data_buffered": {
+      "name": {
+        "v": "HTTP Buffered · малый POST / JSON",
+        "at": "2026-11-06T15:30:53Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "Ограниченный полный body только там, где маршрут выбирает Buffered.",
+        "at": "2026-11-06T15:30:53Z",
+        "origin": "authored"
+      }
+    },
+    "e_data_handler": {
+      "name": {
+        "v": "HTTP endpoint · ответ / настройки",
+        "at": "2026-11-06T15:30:54Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "Прикладной обработчик завершается быстро; поддерживается последовательный HTTP/1.1 keep-alive.",
+        "at": "2026-11-06T15:30:54Z",
+        "origin": "authored"
+      }
+    },
+    "e_data_ram": {
+      "name": {
+        "v": "Ответ · owned RAM / immutable Flash",
+        "at": "2026-11-06T15:30:54Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "Безопасная копия/передача владения либо явно неизменяемые данные с достаточным временем жизни.",
+        "at": "2026-11-06T15:30:54Z",
+        "origin": "authored"
+      }
+    },
+    "e_data_upgrade": {
+      "name": {
+        "v": "WS upgrade · отдельный путь",
+        "at": "2026-11-06T15:30:55Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "Обычная HTTP Route middleware не защищает автоматически WS upgrade.",
+        "at": "2026-11-06T15:30:55Z",
+        "origin": "authored"
+      }
+    },
+    "e_data_ws": {
+      "name": {
+        "v": "WS onMessage / send / broadcast",
+        "at": "2026-11-06T15:30:56Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "Текст и бинарные сообщения, лимиты сессии и pending; callback не ждёт медленного потребителя.",
+        "at": "2026-11-06T15:30:56Z",
+        "origin": "authored"
+      }
+    },
+    "e_data_sse_open": {
+      "name": {
+        "v": "HTTP → SSE open",
+        "at": "2026-11-06T15:30:56Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "HTTP middleware до открытия; EventSource с ограниченными сессиями и кадрами.",
+        "at": "2026-11-06T15:30:56Z",
+        "origin": "authored"
+      }
+    },
+    "e_data_sse": {
+      "name": {
+        "v": "SSE publish · события / heartbeat",
+        "at": "2026-11-06T15:30:57Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "Производитель событий приложения; однонаправленная передача к клиенту.",
+        "at": "2026-11-06T15:30:57Z",
+        "origin": "authored"
+      }
+    },
+    "e_data_fs": {
+      "name": {
+        "v": "FS / SD · источник приложения",
+        "at": "2026-11-06T15:30:58Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "Приложение монтирует FS и владеет файлом/SD; библиотека не монтирует файловую систему.",
+        "at": "2026-11-06T15:30:58Z",
+        "origin": "authored"
+      }
+    },
+    "e_data_source": {
+      "name": {
+        "v": "OwnedSource · порция → TX-очередь",
+        "at": "2026-11-06T15:35:09Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "Managed owned-source читает ограниченную порцию в job.output_body, затем QueuedTransport копирует её в TX. Полный файл в RAM не удерживается; нулевая копия здесь не обещается.",
+        "at": "2026-11-06T15:35:10Z",
+        "origin": "authored"
+      }
+    },
+    "e_data_upload": {
+      "name": {
+        "v": "HTTP Stream · куски upload",
+        "at": "2026-11-06T15:30:59Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "Штатный маршрут с BodyMode::Stream; чанки принимает общий API. Приём chunked Transfer-Encoding не заявляется.",
+        "at": "2026-11-06T15:30:59Z",
+        "origin": "authored"
+      }
+    },
+    "e_data_ota": {
+      "name": {
+        "v": "OTA / FS / SD · запись по частям",
+        "at": "2026-11-06T15:31:00Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "Прикладные sink различаются: файл/SD или неактивный OTA слот. OTA не часть HTTP core.",
+        "at": "2026-11-06T15:31:00Z",
+        "origin": "authored"
+      }
+    },
+    "e_data_tx": {
+      "name": {
+        "v": "Общая bounded TX · HTTP / WS / SSE",
+        "at": "2026-11-06T15:31:00Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "Блоки с соединением, приоритетом и владением данными; лимит байтов/слотов. Queued не означает TCP ACK.",
+        "at": "2026-11-06T15:31:00Z",
+        "origin": "authored"
+      }
+    },
+    "e_data_executor": {
+      "name": {
+        "v": "Dedicated worker / Cooperative",
+        "at": "2026-11-06T15:31:01Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "Одна очередь и алгоритм; отдельная задача либо ограниченные шаги из существующего I/O цикла.",
+        "at": "2026-11-06T15:31:01Z",
+        "origin": "authored"
+      }
+    },
+    "e_data_socket": {
+      "name": {
+        "v": "Sockets → TCP/IP → клиент",
+        "at": "2026-11-06T15:31:02Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "lwIP / Winsock / Linux. Учитываются частичная запись, readiness и timeout; собственный TCP/IP стек не реализуется.",
+        "at": "2026-11-06T15:31:02Z",
+        "origin": "authored"
+      }
+    },
+    "e_data_commit": {
+      "name": {
+        "v": "OTA: check → commit → 202 / reboot",
+        "at": "2026-11-06T15:31:02Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "Приложение валидирует образ, завершает OTA и назначает загрузку. FS/NVM не стираются. HTTP 202 ставится в TX до перезапуска.",
+        "at": "2026-11-06T15:31:02Z",
+        "origin": "authored"
+      }
+    },
+    "e_data_memory": {
+      "name": {
+        "v": "RAM: fixed pool / lazy heap / PSRAM",
+        "at": "2026-11-06T15:31:03Z",
+        "origin": "authored"
+      },
+      "description": {
+        "v": "Раздельные аллокаторы и бюджеты; PSRAM только на поддерживаемой платформе. Это не бюджет всей SDK/OS памяти.",
+        "at": "2026-11-06T15:31:03Z",
+        "origin": "authored"
+      }
+    }
+  }
+}

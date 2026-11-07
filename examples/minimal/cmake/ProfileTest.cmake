@@ -1,0 +1,8 @@
+cmake_minimum_required(VERSION 3.16)
+if(NOT DEFINED NAWSERVER_DEMO_PROFILE_TEST_OUTPUT)
+    message(FATAL_ERROR "Set NAWSERVER_DEMO_PROFILE_TEST_OUTPUT to an ignored build directory")
+endif()
+include("${CMAKE_CURRENT_LIST_DIR}/HttpTestProfile.cmake")
+foreach(target IN ITEMS esp32 esp32c3 esp32c6 esp32s3)
+    nawserver_demo_write_http_profile("${target}" "${CMAKE_CURRENT_LIST_DIR}/../frontend/http-test-config.json.in" "${NAWSERVER_DEMO_PROFILE_TEST_OUTPUT}/${target}.json")
+endforeach()

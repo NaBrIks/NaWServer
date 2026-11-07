@@ -1,0 +1,4 @@
+# Diagnostic only: frame pointers permit call-site attribution on RISC-V.
+CONFIG_HEAP_TRACING_STANDALONE=y
+CONFIG_HEAP_TRACING_STACK_DEPTH=8
+CONFIG_ESP_SYSTEM_USE_FRAME_POINTER=y

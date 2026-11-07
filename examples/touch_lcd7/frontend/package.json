@@ -1,0 +1,10 @@
+{
+  "name": "@nawserver/touch-lcd7",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --config ../../../frontend/vite.config.ts --mode touch_lcd7 --host 127.0.0.1",
+    "build": "node ../../../frontend/tools/build.mjs touch_lcd7"
+  },
+  "version": "0.1.0"
+}

@@ -1,0 +1,13 @@
+{
+  "backend": "Host TCP",
+  "parameters": "/parameters",
+  "binary": "/echo",
+  "binaryAuth": false,
+  "methodMismatch": "/echo",
+  "forbidden": "/forbidden",
+  "websocket": "/ws",
+  "sse": "/events",
+  "ssePrivate": "/events/private",
+  "transport": "HTTP/1.1 + WebSocket + SSE · shared TCP engine",
+  "scope": "P5: общий HTTP/WS/SSE; локальный host-стенд"
+}

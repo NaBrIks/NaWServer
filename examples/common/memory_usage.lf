@@ -1,0 +1,20 @@
+# Only byte-addressable data sections. No IRAM, flash, RTC or unavailable SRAM.
+[mapping:demo_memory_main]
+archive: libmain.a
+entries:
+    * (default);
+        data -> dram0_data SURROUND(demo_memory_main_data),
+        bss -> dram0_bss SURROUND(demo_memory_main_bss),
+        legacy_bss -> dram0_bss SURROUND(demo_memory_main_legacy),
+        common -> dram0_bss SURROUND(demo_memory_main_common),
+        dram -> dram0_data SURROUND(demo_memory_main_dram)
+
+[mapping:demo_memory_library]
+archive: libNaWServer.a
+entries:
+    * (default);
+        data -> dram0_data SURROUND(demo_memory_library_data),
+        bss -> dram0_bss SURROUND(demo_memory_library_bss),
+        legacy_bss -> dram0_bss SURROUND(demo_memory_library_legacy),
+        common -> dram0_bss SURROUND(demo_memory_library_common),
+        dram -> dram0_data SURROUND(demo_memory_library_dram)

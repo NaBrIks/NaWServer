@@ -1,0 +1,61 @@
+#pragma once
+// Pico SDK exports a process-global lwIP errno by default. FreeRTOS/newlib
+// callers use per-task errno: both sides must include the same system header.
+#undef LWIP_PROVIDE_ERRNO
+#define LWIP_ERRNO_STDINCLUDE 1
+#include <errno.h>
+#include <sys/time.h>
+#define NO_SYS 0
+#define LWIP_COMPAT_SOCKETS 0
+#define LWIP_TIMEVAL_PRIVATE 0
+#define LWIP_SOCKET 1
+#define LWIP_NETCONN 1
+#define LWIP_NETCONN_SEM_PER_THREAD 0
+#define LWIP_SOCKET_SELECT 1
+#define LWIP_SOCKET_POLL 1
+#define LWIP_TCPIP_CORE_LOCKING 1
+#define SYS_LIGHTWEIGHT_PROT 1
+#define MEM_ALIGNMENT 4
+#define MEM_LIBC_MALLOC 0
+#define MEM_SIZE (32 * 1024)
+#define MEMP_NUM_NETCONN 16
+#define MEMP_NUM_TCP_PCB 12
+#define MEMP_NUM_TCP_PCB_LISTEN 2
+#define MEMP_NUM_TCP_SEG 48
+#define MEMP_NUM_ARP_QUEUE 8
+#define MEMP_NUM_SYS_TIMEOUT 16
+#define PBUF_POOL_SIZE 24
+#define TCP_MSS 1460
+#define TCP_WND (4 * TCP_MSS)
+#define TCP_SND_BUF (4 * TCP_MSS)
+#define TCP_SND_QUEUELEN 16
+#define LWIP_IPV4 1
+#define LWIP_IPV6 0
+#define LWIP_ARP 1
+#define LWIP_ETHERNET 1
+#define LWIP_ICMP 1
+#define LWIP_RAW 1
+#define LWIP_TCP 1
+#define LWIP_UDP 1
+#define LWIP_DHCP 1
+#define LWIP_DNS 1
+#define LWIP_NETIF_HOSTNAME 1
+#define LWIP_NETIF_STATUS_CALLBACK 1
+#define LWIP_NETIF_LINK_CALLBACK 1
+#define LWIP_NETIF_TX_SINGLE_PBUF 1
+#define LWIP_SO_SNDTIMEO 1
+#define LWIP_SO_RCVTIMEO 1
+#define LWIP_SO_REUSE 1
+#define LWIP_TCP_KEEPALIVE 1
+#define LWIP_STATS 0
+#define DHCP_DOES_ARP_CHECK 0
+#define DHCP_DOES_ACD_CHECK 0
+#define TCPIP_THREAD_NAME "lwip"
+#define TCPIP_THREAD_STACKSIZE 2048
+#define TCPIP_THREAD_PRIO 5
+#define TCPIP_MBOX_SIZE 16
+#define DEFAULT_TCP_RECVMBOX_SIZE 8
+#define DEFAULT_ACCEPTMBOX_SIZE 8
+#define DEFAULT_UDP_RECVMBOX_SIZE 8
+#define DEFAULT_THREAD_STACKSIZE 1024
+#define DEFAULT_THREAD_PRIO 4

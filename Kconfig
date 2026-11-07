@@ -1,0 +1,200 @@
+menu "NaWServer"
+
+config NAWSERVER_API_KEYS
+    bool "Persistent API key store"
+    default y
+    help
+        Bounded platform-independent key table with injectable storage and RNG.
+        The ESP adapter uses a private NVS namespace and active RF entropy.
+
+config NAWSERVER_AUTH
+    bool "Authentication providers"
+    default y
+    help
+        Compile optional authentication providers. Protected routes must not
+        become public when this feature is disabled.
+
+config NAWSERVER_CLIENT_QUOTAS
+    bool "Middleware client quotas"
+    default y
+    help
+        Compile client quota policies independently of authentication and the
+        managed connection/buffer engine.
+
+config NAWSERVER_TCP_MANAGED
+    bool "Managed TCP buffers and keep-alive"
+    default n
+    help
+        Compile the opt-in scheduler. TcpOptions enables managed initial/dynamic
+        buffers and bounded sequential HTTP/1.1 keep-alive independently of an
+        optional middleware quota policy. Physical reserved request
+        buffers are separately opt-in. Run early header middleware and send
+        bounded I/O slices without recursively entering application callbacks.
+
+config NAWSERVER_TCP_MANAGED_HEAD_BYTES
+    int "Request header capacity per managed HTTP slot"
+    depends on NAWSERVER_TCP_MANAGED
+    range 128 8192
+    default 1024
+
+config NAWSERVER_TCP_MANAGED_RESPONSE_BYTES
+    int "Copied response capacity per managed HTTP slot"
+    depends on NAWSERVER_TCP_MANAGED
+    range 256 65536
+    default 4096
+
+config NAWSERVER_TCP_MANAGED_STREAM_BYTES
+    int "Private stream arena bytes per active WS client"
+    depends on NAWSERVER_TCP_MANAGED && NAWSERVER_WEBSOCKET
+    range 4096 65536
+    default 16384
+    help
+        Includes the bounded deferred incoming WS callback buffer. Explicit
+        smaller budgets remain hard limits and can reject upgrades before 101.
+
+config NAWSERVER_TCP_MEMORY_POLICY
+    int "TCP HTTP/WS buffer memory: 0 system, 1 internal, 2 PSRAM, 3 prefer internal, 4 prefer PSRAM"
+    range 0 4
+    default 0
+    help
+        ESP-IDF buffer placement only. Policies 1 and 2 never fall back to the
+        other RAM type. Policies 3 and 4 explicitly permit fallback. Task stacks,
+        small control objects and SDK Wi-Fi/lwIP allocations are separate.
+        TcpOptions.buffer_memory can override this default for each instance.
+
+config NAWSERVER_TCP_BUFFER_BYTES
+    int "TCP HTTP/WS allocated buffer byte limit"
+    range 1024 1048576
+    default 65536
+    help
+        Bound the sum of requested array bytes, including HTTP workspace,
+        connection tables, WS receive/metadata arrays and reserved TX pool.
+        Reject before allocating over this budget. Allocator overhead, control
+        objects, OS socket memory and task stacks are outside this buffer ledger.
+
+config NAWSERVER_SSE_MEMORY_POLICY
+    int "SSE frame memory: 0 system, 1 internal, 2 PSRAM, 3 prefer internal, 4 prefer PSRAM"
+    depends on NAWSERVER_SSE
+    range 0 4
+    default 0
+    help
+        Placement of bounded SSE queue/header/frame storage. Synchronization
+        and task control remain platform-owned. Limits.buffer_memory overrides
+        this default per instance. Strict PSRAM fails startup if unavailable.
+
+config NAWSERVER_SSE_BUFFER_BYTES
+    int "SSE total reserved frame storage limit (bytes)"
+    depends on NAWSERVER_SSE
+    range 1024 1048576
+    default 16384
+    help
+        Physical reserved frame bytes, separate from Limits.total_bytes which
+        bounds queued event payload. Too small a budget fails adapter startup.
+
+config NAWSERVER_TCP_HTTP_STACK_SIZE
+    int "TCP HTTP task stack size (bytes)"
+    range 4096 65536
+    default 8192 if NAWSERVER_MCP
+    default 6144
+    help
+        ESP-IDF worker stack, including synchronous application handlers.
+        Detailed device introspection may require more than the default;
+        measure task stack high-water marks on the actual application.
+        Host threads are configured separately.
+
+config NAWSERVER_WEBSOCKET
+    bool "WebSocket support"
+    default y
+    help
+        Compile the shared WebSocket endpoint and TCP wire implementation.
+        No ESP-IDF HTTPD configuration is required.
+config NAWSERVER_SSE
+    bool "Server-Sent Events support"
+    default y
+    help
+        Enable EventSource, the bounded SSE encoder/queue and the adapter for
+        the selected backend. Disabled builds do not compile the SSE encoder.
+
+endmenu
+menu "NaWServer optional MCP"
+config NAWSERVER_MCP
+    bool "Autonomous MCU MCP endpoint"
+    default n
+    help
+        Bounded JSON-RPC tools endpoint, statically provided by the application.
+        Disabled builds contain no MCP buffers, routes or JSON-only dependency.
+
+if NAWSERVER_MCP
+choice NAWSERVER_JSON_BACKEND
+    prompt "JSON reader/validator"
+    default NAWSERVER_JSON_BOUNDED
+    help
+        Exactly one reader is linked. All use the common bounded output writer
+        and the same strict JSON/MCP contract; external readers need larger arenas.
+
+config NAWSERVER_JSON_BOUNDED
+    bool "NaWServer bounded reader"
+
+config NAWSERVER_JSON_YYJSON
+    bool "yyjson reader (MIT, optional)"
+config NAWSERVER_JSON_RAPIDJSON
+    bool "RapidJSON SAX reader (MIT, optional)"
+endchoice
+
+config NAWSERVER_JSON_INPUT_BYTES
+    int "Maximum JSON/MCP request bytes"
+    range 128 65535
+    default 4096
+    help
+        Rejection limit, not a second input buffer. The HTTP layer still owns
+        request storage and must permit at least this size to use the full limit.
+
+config NAWSERVER_JSON_STRING_BYTES
+    int "Maximum decoded JSON string bytes"
+    range 16 65535
+    default 512
+    help
+        Includes object keys and counts UTF-8 bytes after unescaping.
+        Application tools may impose smaller limits, such as echo's 256 bytes.
+
+config NAWSERVER_JSON_CONTAINER_ITEMS
+    int "Maximum items per JSON container"
+    range 1 32767
+    default 32
+
+config NAWSERVER_JSON_DEPTH
+    int "Maximum JSON container depth"
+    range 1 32
+    default 8
+    help
+        Limits nested arrays/objects. Higher values also increase traversal stack
+        use; changing this setting does not enlarge the HTTP worker stack.
+
+config NAWSERVER_JSON_VALUE_CAPACITY
+    int "Maximum JSON values including object keys"
+    range 8 65535
+    default 256
+    help
+        All backends enforce the same logical limit. The bounded reader needs
+        eight workspace bytes per value. yyjson uses its native DOM in the arena.
+
+config NAWSERVER_JSON_WORKSPACE_BYTES
+    int "Fixed JSON reader workspace bytes"
+    range 64 1048576
+    default 16384 if NAWSERVER_JSON_YYJSON
+    default 8192 if NAWSERVER_JSON_RAPIDJSON
+    default 2048
+    help
+        One caller-owned arena per endpoint, reused for request/output validation.
+        Never grows or falls back to the heap. ESP demos use static storage,
+        except S3 which allocates it once in PSRAM. Output storage is separate.
+
+config NAWSERVER_MCP_OUTPUT_BYTES
+    int "Fixed MCP output buffer bytes"
+    range 256 65535
+    default 2048
+    help
+        One complete JSON-RPC response must fit, including tool schemas and IDs.
+        Capacity overflow returns an error rather than sending truncated JSON.
+endif
+endmenu

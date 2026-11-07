@@ -1,0 +1,12 @@
+{
+  "id": "nawserver",
+  "title": "NaWServer — архитектура",
+  "subtitle": "Слои, контексты FreeRTOS, потоки и API приложения",
+  "contractVersion": 5,
+  "defaultAxis": "axis_layer",
+  "languages": [
+    "ru"
+  ],
+  "defaultView": "v_capabilities",
+  "icon": "folder"
+}

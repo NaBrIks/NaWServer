@@ -1,0 +1,62 @@
+{
+  "date": "2026-10-19",
+  "target": "ESP32-C3",
+  "platform": "espressif32@6.10.0",
+  "idf": "5.4.0",
+  "compiler": "GCC14.2.0",
+  "cpp": 17,
+  "host_targets": 6,
+  "host_pipeline_checks": 139,
+  "host_response_basic_checks": 85,
+  "device_response_basic_checks": 85,
+  "device_loopback_checks": 63,
+  "network_response_checks_per_profile": 198,
+  "legacy_http_body_auth_ws": "PASS",
+  "profiles": {
+    "lookup": {
+      "sha256": "57f0ec531b880f91d19ff99825d10becd3ae6f4af874ab926a7c1c1b54ad817a",
+      "firmware_bytes": 903072,
+      "response_bytes": 948,
+      "heap_free": 198544,
+      "heap_min": 177508,
+      "largest_block": 114688,
+      "http_stack_min_free": 2124
+    },
+    "from_chars": {
+      "sha256": "3fd70e3bdbb0dea0fe657f5ddd03ffd3ee25a17f393b7744af42f1c0f5204afa",
+      "firmware_bytes": 904192,
+      "response_bytes": 948,
+      "heap_free": 198540,
+      "heap_min": 177528,
+      "largest_block": 114688,
+      "http_stack_min_free": 2044
+    }
+  },
+  "sse_integration": {
+    "host_bridge_checks": 708,
+    "device_lan_checks": 2551,
+    "stop_checks": 74,
+    "browser_checks": 3,
+    "begin": 86,
+    "complete": 86,
+    "active": 0,
+    "pending": 0
+  },
+  "sources": {
+    "src/web_request.h": "880180c95174178c842f22db8ed3b88cce0f5d02e644d4f7ef05201bfaba118c",
+    "src/web_request.cpp": "0d1a8644c22e140b7fdd64b05a9efed1dd8d693df1526f91cb159d4cd7438094",
+    "src/web_response.h": "e53c52ed3d1c5e293a8597b6b508973ab66fbab942da12a3474d741560ff1e81",
+    "src/web_response.cpp": "4cc4734b09002f708878ffc7e71b4b7114ebe697c46a3d74969a7e2227e21685",
+    "src/httpd_response.h": "99e53930df83a4fcc1d8d443d59d935c880a332fff72e9a485e251ddd75ab966",
+    "src/httpd_response.cpp": "f82dd3aea9569b4bf4cd14d23be6d6309312f66ef0a2afb9a79b98dd2cdbbb87",
+    "src/basic_auth.h": "55e65d36ed8ba97015d91cf6240098c14bff918fa98528f6d6ad44d4bc2d06b2",
+    "src/basic_auth.cpp": "bdee99ec221037707bd815d42296703803a19fc0c7c8596375b7e4cf9652bfb1",
+    "src/pipeline.h": "41f26086130f1b50a87c3e6e501357f67edac69934cab1da4fe2f87584d45e03",
+    "src/route.cpp": "fff96d17dbe18024795928309c37ab6eb6fc360ab56bc0e756bf0f425abe023c",
+    "src/web_server_idf.cpp": "bd512c82b13cdda3aa382c32d39d5af92a0a52bbcf8e5a47c06f4a38ab0c9355",
+    "tests/response_test.cpp": "e299c56bd20df326f0e36c1b1e7144cd9c4360f3d98d94765552256ceb3f4397",
+    "tests/pipeline_test.cpp": "5f06089d3498a43f63920aa4d3d1d45c93c501af0722ad5c550f25a8200b7803",
+    "examples/minimal/main/main.cpp": "74fe075f084e9cd664e91f5b9bbada8113b52d78e21a41bf64e28d91666b6e73",
+    "tools/http_api_smoke/main.go": "5dd6568915eec44a36a968275013c50af6fd10da7b4093a26af9e6fb4d1ce14d"
+  }
+}

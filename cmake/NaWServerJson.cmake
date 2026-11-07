@@ -1,0 +1,47 @@
+# Attach exactly one JSON reader/validator and the common bounded writer.
+include("${CMAKE_CURRENT_LIST_DIR}/NaWServerConfiguration.cmake")
+# A supplied yyjson target is reused so an application need not link two copies.
+set(_nawserver_json_root "${CMAKE_CURRENT_LIST_DIR}/..")
+
+function(nawserver_attach_json target backend)
+    target_sources(${target} PRIVATE "${_nawserver_json_root}/src/json/json.cpp")
+    if(backend STREQUAL "bounded")
+        target_sources(${target} PRIVATE "${_nawserver_json_root}/src/json/bounded.cpp")
+        target_compile_definitions(${target} PUBLIC NAWSERVER_JSON_BOUNDED=1 NAWSERVER_JSON_YYJSON=0 NAWSERVER_JSON_RAPIDJSON=0)
+    elseif(backend STREQUAL "yyjson")
+        target_sources(${target} PRIVATE "${_nawserver_json_root}/src/json/yyjson.cpp")
+        target_compile_definitions(${target} PUBLIC NAWSERVER_JSON_BOUNDED=0 NAWSERVER_JSON_YYJSON=1 NAWSERVER_JSON_RAPIDJSON=0)
+        if(NAWSERVER_YYJSON_TARGET)
+            if(NOT TARGET "${NAWSERVER_YYJSON_TARGET}")
+                message(FATAL_ERROR "NAWSERVER_YYJSON_TARGET must name an existing compatible yyjson CMake target")
+            endif()
+            target_link_libraries(${target} PRIVATE "${NAWSERVER_YYJSON_TARGET}")
+        else()
+            if(NOT TARGET nawserver_yyjson)
+                add_library(nawserver_yyjson STATIC "${_nawserver_json_root}/third_party/yyjson/src/yyjson.c")
+                target_include_directories(nawserver_yyjson PUBLIC "${_nawserver_json_root}/third_party/yyjson/src")
+                # Keep strict Unicode/number validation and exact floating conversion.
+                # File utilities and permissive syntax are outside this MCP contract.
+                target_compile_definitions(nawserver_yyjson PRIVATE YYJSON_DISABLE_FILE=1
+                    YYJSON_DISABLE_UTILS=1 YYJSON_DISABLE_NON_STANDARD=1 YYJSON_DISABLE_INCR_READER=1)
+                set_target_properties(nawserver_yyjson PROPERTIES C_STANDARD 99 C_STANDARD_REQUIRED YES)
+            endif()
+            target_link_libraries(${target} PRIVATE nawserver_yyjson)
+        endif()
+    elseif(backend STREQUAL "rapidjson")
+        target_sources(${target} PRIVATE "${_nawserver_json_root}/src/json/rapidjson.cpp")
+        target_compile_definitions(${target} PUBLIC NAWSERVER_JSON_BOUNDED=0 NAWSERVER_JSON_YYJSON=0 NAWSERVER_JSON_RAPIDJSON=1)
+        # Headers are private implementation details; application API contains
+        # no RapidJSON types. An existing compatible header target can be reused.
+        if(NAWSERVER_RAPIDJSON_TARGET)
+            if(NOT TARGET "${NAWSERVER_RAPIDJSON_TARGET}")
+                message(FATAL_ERROR "NAWSERVER_RAPIDJSON_TARGET must name an existing compatible header target")
+            endif()
+            target_link_libraries(${target} PRIVATE "${NAWSERVER_RAPIDJSON_TARGET}")
+        else()
+            target_include_directories(${target} SYSTEM PRIVATE "${_nawserver_json_root}/third_party/rapidjson/include")
+        endif()
+    else()
+        message(FATAL_ERROR "Unknown NaWServer JSON backend: ${backend}")
+    endif()
+endfunction()

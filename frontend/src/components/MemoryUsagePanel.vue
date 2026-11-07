@@ -1,0 +1,23 @@
+<script setup lang="ts">
+import {computed} from 'vue';
+import {memoryKinds,type MemoryRegion} from '../contracts/memory';
+import {memoryLabel,memoryNumber,regionLabel} from '../state/memory-labels';
+import {t} from '../state/appearance';
+import Icon from './Icon.vue';import InfoButton from './InfoButton.vue';
+const props=defineProps<{regions:MemoryRegion[];fresh:boolean}>();
+const ram=computed(()=>props.regions.find(region=>region.id==='internal'));
+const psram=computed(()=>props.regions.find(region=>region.id==='psram'));
+const kinds=computed(()=>memoryKinds.filter(kind=>kind!=='unknown_bytes'||props.regions.some(region=>!region.measured)));
+const bytes=(region:MemoryRegion,kind:string)=>region.segments.find(segment=>segment.kind===kind)?.bytes??0;
+const help=computed(()=>[
+ {term:t('Шкала','Scale'),description:t('Только учтённая RAM для данных: heap и data/bss текущей прошивки. Без IRAM, RTC, ROM, flash и недоступных резервов. Ноль снизу.','Accounted data RAM only: heap and current image data/bss. Excludes IRAM, RTC, ROM, flash and unavailable reserves. Zero at the bottom.')},
+ {term:memoryLabel('own_static_bytes'),description:t('Реальные linker-границы data/bss компонентов NaWServer и main. Нулевое значение не подменяет отсутствующий замер.','Actual data/bss linker boundaries of NaWServer and main. Missing measurements are never replaced with zero.')},
+ {term:memoryLabel('own_dynamic_bytes'),description:t('Живые payload-байты буферов, выделенных через ESP-IDF allocator NaWServer. Включая начальный минимум; не максимум конфигурации.','Live payload bytes allocated through the NaWServer ESP-IDF buffer allocator. Includes the initial minimum, not configured maximum capacity.')},
+ {term:memoryLabel('other_dynamic_bytes'),description:t('Остальная занятая heap: SDK, сторонние библиотеки, стеки, неучтённые выделения и служебные расходы allocator. Не строгая классификация владельца каждого байта.','Remaining occupied heap: SDK, other libraries, stacks, untracked allocations and allocator overhead. Not a strict owner attribution of every byte.')}
+]);
+</script>
+<template><section class="panel memory-distribution" data-testid="memory-distribution"><div class="panel-head"><h2><Icon name="database"/>{{t('Распределение памяти','Memory distribution')}} ({{t('КиБ','KiB')}})</h2><InfoButton :label="t('Распределение памяти','Memory distribution')" :items="help"/></div><div class="memory-distribution-scroll"><div class="memory-distribution-body" :class="{stale:!fresh}">
+ <div v-if="ram" class="memory-bar"><svg viewBox="0 0 36 100" preserveAspectRatio="none" role="img" :aria-label="regionLabel(ram.id)"><rect v-for="segment in ram.segments" :key="segment.kind" :class="`memory-color-${segment.kind}`" x="0" :y="100-(segment.offset+segment.bytes)*100/ram.total" width="36" :height="segment.bytes*100/ram.total" :data-tooltip="memoryLabel(segment.kind)+': '+memoryNumber(segment.bytes)+' '+t('КиБ','KiB')"/><line v-for="segment in ram.segments.filter(item=>item.offset>0)" :key="segment.kind" x1="0" x2="36" :y1="100-segment.offset*100/ram.total" :y2="100-segment.offset*100/ram.total"/></svg></div>
+ <table class="memory-distribution-table"><thead><tr><th class="numeric">RAM</th><th>{{t('Память','Memory')}}</th><th v-if="psram" class="numeric">PSRAM</th></tr></thead><tbody><tr><td class="numeric">{{ram?memoryNumber(ram.total):'—'}}</td><th scope="row">{{t('Всего','Total')}}</th><td v-if="psram" class="numeric">{{memoryNumber(psram.total)}}</td></tr><tr v-for="kind in kinds" :key="kind"><td class="numeric">{{!ram||!fresh||(!ram.measured&&kind!=='free_bytes'&&kind!=='unknown_bytes')?'—':memoryNumber(bytes(ram,kind))}}</td><th scope="row"><i class="memory-swatch" :class="`memory-color-${kind}`"/>{{memoryLabel(kind)}}</th><td v-if="psram" class="numeric">{{!fresh||(!psram.measured&&kind!=='free_bytes'&&kind!=='unknown_bytes')?'—':memoryNumber(bytes(psram,kind))}}</td></tr></tbody></table>
+ <div v-if="psram" class="memory-bar"><svg viewBox="0 0 36 100" preserveAspectRatio="none" role="img" :aria-label="regionLabel(psram.id)"><rect v-for="segment in psram.segments" :key="segment.kind" :class="`memory-color-${segment.kind}`" x="0" :y="100-(segment.offset+segment.bytes)*100/psram.total" width="36" :height="segment.bytes*100/psram.total" :data-tooltip="memoryLabel(segment.kind)+': '+memoryNumber(segment.bytes)+' '+t('КиБ','KiB')"/><line v-for="segment in psram.segments.filter(item=>item.offset>0)" :key="segment.kind" x1="0" x2="36" :y1="100-segment.offset*100/psram.total" :y2="100-segment.offset*100/psram.total"/></svg></div>
+ </div></div></section></template>

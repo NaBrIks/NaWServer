@@ -1,0 +1,7 @@
+function,own_frame_bytes
+direct,64
+lookup,32
+from_chars,32
+spans,80
+shared_check,0
+shared_direct_hex,0

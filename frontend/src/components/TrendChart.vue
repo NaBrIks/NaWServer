@@ -1,0 +1,6 @@
+<script setup lang="ts">
+import {computed} from 'vue';import type {Point} from '../contracts';import {t} from '../state/appearance';
+const props=withDefaults(defineProps<{points:Point[];max?:number;min?:number;color?:string;unit?:string;label?:string;windowMs?:number}>(),{color:'var(--lu-primary)',min:0,max:100,unit:'%',label:'History',windowMs:60000});
+const plotted=computed(()=>{const end=props.points.at(-1)?.t??0;return props.points.filter(a=>a.t>=end-props.windowMs).map(a=>({x:48+(a.t-end+props.windowMs)/props.windowMs*680,y:150-(Math.max(props.min,Math.min(props.max,a.value))-props.min)/(props.max-props.min||1)*130}));});const path=computed(()=>plotted.value.map((p,i)=>`${i?'L':'M'}${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(' '));
+</script>
+<template><svg class="chart" viewBox="0 0 760 180" role="img" :aria-label="label" :data-min="min" :data-max="max"><g class="chart-grid"><path v-for="y in [20,63,107,150]" :key="y" :d="`M48 ${y}H736`"/></g><g class="chart-axis"><text x="0" y="24">{{Math.round(max)}}{{unit}}</text><text x="0" y="90">{{Math.round((max+min)/2)}}</text><text x="0" y="154">{{min}}</text><text x="48" y="176">−{{windowMs/1000}} s</text><text x="680" y="176">{{t('сейчас','now')}}</text></g><path :d="path" fill="none" :stroke="color" stroke-width="1.7" stroke-linejoin="round"/></svg></template>

@@ -1,0 +1,4 @@
+# Apply after sdkconfig.tcp.defaults in a separate build directory, or explicitly
+# select the same option in an existing sdkconfig before rebuilding all objects.
+# ESP-IDF's performance optimization is -O2. Assertions remain enabled for acceptance.
+CONFIG_COMPILER_OPTIMIZATION_PERF=y

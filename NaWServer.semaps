@@ -1,0 +1,8 @@
+version: 1
+name: NaWServer
+workspace: docs/diagrams
+source_root: .
+port: 54381
+mcp:
+  tools: one
+  description: standard

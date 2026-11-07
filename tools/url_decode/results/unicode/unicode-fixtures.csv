@@ -1,0 +1,9 @@
+dataset,input_bytes,output_bytes,fnv1a_output,passing_variants
+utf8_ru_raw,1024,1024,1426813762,4
+utf8_ru_pct,3072,1024,1426813762,4
+utf8_zh_raw,1024,1024,2874086688,4
+utf8_zh_pct,3072,1024,2874086688,4
+utf8_ja_raw,1024,1024,1865154599,4
+utf8_ja_pct,3072,1024,1865154599,4
+utf8_emoji_raw,1024,1024,2286434829,4
+utf8_emoji_pct,3072,1024,2286434829,4

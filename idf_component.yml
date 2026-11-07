@@ -1,0 +1,6 @@
+version: "0.2.0"
+description: "Portable HTTP, WebSocket and SSE engine with ESP-IDF socket adapters"
+license: "MIT"
+url: "https://github.com/NaBrIks/NaWServer"
+dependencies:
+  idf: ">=5.4,<7.0"

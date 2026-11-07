@@ -1,0 +1,8 @@
+{
+  "name": "@nawserver/c6-lcd147",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node ../../../frontend/tools/build.mjs c6_lcd147"
+  }
+}

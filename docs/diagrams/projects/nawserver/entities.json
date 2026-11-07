@@ -1,0 +1,917 @@
+{
+  "contractVersion": 5,
+  "entities": [
+    {
+      "id": "e_routes",
+      "kind": "component",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_producer",
+      "kind": "component",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_wifi",
+      "kind": "service",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_server",
+      "kind": "component",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_request",
+      "kind": "component",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_ws",
+      "kind": "component",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_auth",
+      "kind": "security",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_statics",
+      "kind": "component",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_container",
+      "kind": "component",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_httpd",
+      "kind": "service",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_tcp",
+      "kind": "service",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_rtos",
+      "kind": "service",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_pending",
+      "kind": "note",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_model_note",
+      "kind": "note",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_layer_app",
+      "kind": "layer",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_layer_web",
+      "kind": "layer",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_layer_sdk",
+      "kind": "layer",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_browser",
+      "kind": "app",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_monitor",
+      "kind": "external",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_app_store",
+      "kind": "store",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_boundary_note",
+      "kind": "note",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_firmware",
+      "kind": "system",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_library",
+      "kind": "subsystem",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_main_wait",
+      "kind": "stage",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_publish",
+      "kind": "stage",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_http_select",
+      "kind": "stage",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_body_recv",
+      "kind": "stage",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_app_callback",
+      "kind": "stage",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_http_job",
+      "kind": "stage",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_socket_wait",
+      "kind": "stage",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_event_task",
+      "kind": "stage",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_network_tasks",
+      "kind": "stage",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_tasks_note",
+      "kind": "note",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_queue_note",
+      "kind": "note",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_task_main",
+      "kind": "group",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_task_http",
+      "kind": "group",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_task_sdk",
+      "kind": "group",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_flow_payload",
+      "kind": "stage",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_flow_copy",
+      "kind": "stage",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_flow_enqueue",
+      "kind": "queue",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_flow_return",
+      "kind": "stage",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_flow_alive",
+      "kind": "decision",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_flow_send",
+      "kind": "stage",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_flow_free",
+      "kind": "stage",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_flow_idle",
+      "kind": "stage",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_flow_failure",
+      "kind": "note",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_flow_lifetime",
+      "kind": "note",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_flow_producer",
+      "kind": "group",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_flow_httpd",
+      "kind": "group",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_app_own",
+      "kind": "stage",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_app_register",
+      "kind": "stage",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_app_begin",
+      "kind": "stage",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_app_incoming",
+      "kind": "stage",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_app_outgoing",
+      "kind": "stage",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_app_return",
+      "kind": "stage",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_app_quiesce",
+      "kind": "stage",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_app_stop",
+      "kind": "stage",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_app_destroy",
+      "kind": "stage",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_app_contract",
+      "kind": "note",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_app_shutdown_gap",
+      "kind": "note",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_app_setup_zone",
+      "kind": "group",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_app_running_zone",
+      "kind": "group",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_app_stop_zone",
+      "kind": "group",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_access_public",
+      "kind": "concept",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_access_protected",
+      "kind": "concept",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_authenticator",
+      "kind": "security",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_authorizer",
+      "kind": "security",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_principal",
+      "kind": "concept",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_public_readings",
+      "kind": "usecase",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_private_commands",
+      "kind": "usecase",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_user_store",
+      "kind": "store",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_roles_catalog",
+      "kind": "store",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_sessions_ram",
+      "kind": "store",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_build_choice",
+      "kind": "note",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_access_phase",
+      "kind": "note",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_access_routes_zone",
+      "kind": "group",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_access_guards_zone",
+      "kind": "group",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_access_app_zone",
+      "kind": "group",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_access_data_zone",
+      "kind": "group",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_response",
+      "kind": "component",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_sse",
+      "kind": "component",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_task_sse",
+      "kind": "group",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_sse_handoff",
+      "kind": "stage",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_sse_worker_step",
+      "kind": "stage",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_sse_worker_close",
+      "kind": "stage",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_flow_sse",
+      "kind": "group",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_sse_flow_open",
+      "kind": "stage",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_sse_flow_queue",
+      "kind": "queue",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_sse_flow_write",
+      "kind": "stage",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_sse_flow_complete",
+      "kind": "stage",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_sse_flow_publish",
+      "kind": "stage",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_app_sse_start",
+      "kind": "stage",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_app_sse_stop",
+      "kind": "stage",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_access_sse_open",
+      "kind": "usecase",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_layers_http_server",
+      "kind": "component",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_layers_http_backend",
+      "kind": "interface",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_layers_tcp_backend",
+      "kind": "component",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_layers_idf_transport",
+      "kind": "component",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_layers_httpd_backend",
+      "kind": "component",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_layers_server_facade",
+      "kind": "component",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_layers_transport_swap",
+      "kind": "note",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_layers_netif",
+      "kind": "external",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_layers_caveat",
+      "kind": "note",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_layers_details",
+      "kind": "group",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_layers_lwip",
+      "kind": "external",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_layers_httpd_label",
+      "kind": "note",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_cap_app",
+      "kind": "group",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_cap_core",
+      "kind": "group",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_cap_platform",
+      "kind": "group",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_cap_browser",
+      "kind": "actor",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_cap_api",
+      "kind": "actor",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_cap_agent",
+      "kind": "actor",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_cap_ui",
+      "kind": "app",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_cap_handlers",
+      "kind": "component",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_cap_services",
+      "kind": "component",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_cap_http",
+      "kind": "component",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_cap_realtime",
+      "kind": "component",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_cap_policy",
+      "kind": "security",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_cap_tx",
+      "kind": "queue",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_cap_buffers",
+      "kind": "component",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_cap_keys",
+      "kind": "security",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_cap_diagnostics",
+      "kind": "component",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_cap_json",
+      "kind": "component",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_cap_lifecycle",
+      "kind": "component",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_cap_esp",
+      "kind": "external",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_cap_rp",
+      "kind": "external",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_cap_host",
+      "kind": "external",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_cap_memory",
+      "kind": "note",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_data_ingress",
+      "kind": "group",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_data_application",
+      "kind": "group",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_data_output",
+      "kind": "group",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_data_headers",
+      "kind": "stage",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_data_route",
+      "kind": "security",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_data_keys",
+      "kind": "store",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_data_drop",
+      "kind": "stage",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_data_callbacks",
+      "kind": "note",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_data_buffered",
+      "kind": "stage",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_data_handler",
+      "kind": "component",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_data_ram",
+      "kind": "store",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_data_upgrade",
+      "kind": "stage",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_data_ws",
+      "kind": "component",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_data_sse_open",
+      "kind": "stage",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_data_sse",
+      "kind": "component",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_data_fs",
+      "kind": "store",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_data_source",
+      "kind": "stage",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_data_upload",
+      "kind": "stage",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_data_ota",
+      "kind": "component",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_data_tx",
+      "kind": "queue",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_data_executor",
+      "kind": "stage",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_data_socket",
+      "kind": "external",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_data_commit",
+      "kind": "stage",
+      "origin": "authored",
+      "status": "present"
+    },
+    {
+      "id": "e_data_memory",
+      "kind": "note",
+      "origin": "authored",
+      "status": "present"
+    }
+  ]
+}

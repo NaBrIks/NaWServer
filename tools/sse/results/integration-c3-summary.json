@@ -1,0 +1,43 @@
+{
+  "date": "2026-10-19",
+  "target": "esp32c3",
+  "firmware_bytes": 818496,
+  "firmware_sha256": "8e33328889f18fb6c4f5793fb666480b1de3eaf7694a533cc9715653631d795e",
+  "write_start": "0x10000",
+  "write_end_exclusive": "0xd7d40",
+  "host_encoder_session_checks": 20269,
+  "host_bridge_checks": 708,
+  "device_encoder_session_checks": 20269,
+  "lan": {
+    "begun": 81,
+    "checks": 2551,
+    "churn_free_heap": [
+      164608,
+      164396,
+      164396
+    ],
+    "completed": 81,
+    "mixed_http_ws_ms": 116,
+    "overflow": 1,
+    "producer_max_us": 145,
+    "rolled_back": 2,
+    "slow_frames_queued": 101,
+    "stall": 1
+  },
+  "browser_eventsource_checks": 3,
+  "stop_checks": 74,
+  "final": {
+    "begun": 86,
+    "completed": 86,
+    "rolled_back": 2,
+    "active": 0,
+    "pending": 0,
+    "producer_max_us": 145,
+    "free_heap_after_stop": 171772
+  },
+  "earlier_incomplete_slow_reader_attempt": {
+    "begun": 40,
+    "completed": 40,
+    "counted_as_pass": false
+  }
+}

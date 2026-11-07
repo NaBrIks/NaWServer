@@ -1,0 +1,393 @@
+{
+  "date": "2026-11-06",
+  "sdk": "ESP-IDF 5.5.6",
+  "optimization": "Release O3",
+  "psram": false,
+  "execution": "Cooperative",
+  "html_bytes": 408,
+  "api_hz": 1,
+  "ws_echo_bytes": 256,
+  "ws_echo_hz": 2,
+  "telemetry_hz": 1,
+  "html_reload_seconds": 2,
+  "notes": [
+    "Synthetic protocol clients, not browser renderers.",
+    "Minimum sampled free heap is not a traced instantaneous peak.",
+    "Profile 3 v0.9.2 retries transient SSE Busy for at most one period.",
+    "Static firmware and facade storage is already included before startup.",
+    "Before-start breakdown uses matching ELF/map, excludes DRAM dummy alias; direct library/demo archive sections are not total causal library cost."
+  ],
+  "rows": [
+    {
+      "board": "c3",
+      "profile": 1,
+      "firmware": "0.9.0-profile1",
+      "seconds": 45,
+      "physical_bytes": 409600,
+      "heap_before": 214596,
+      "heap_after": 195224,
+      "startup_heap_bytes": 19372,
+      "idle_free_bytes": 194800,
+      "minimum_sampled_free_bytes": 194472,
+      "minimum_sampled_largest_bytes": 114688,
+      "idle_cpu_percent": 1.4207775656461485,
+      "active_cpu_percent": 2.560757892446555,
+      "api": {
+        "ok": 44,
+        "errors": 0,
+        "latency": {
+          "n": 44,
+          "p50": 21.048399999999674,
+          "p95": 41.96389999999519,
+          "p99": 59.57329999999638
+        }
+      },
+      "page": {
+        "ok": 0,
+        "errors": 0,
+        "latency": {
+          "n": 0,
+          "p50": null,
+          "p95": null,
+          "p99": null
+        }
+      },
+      "ws": {
+        "clients": 0,
+        "sent": 0,
+        "echoes": 0,
+        "rejected": 0,
+        "max_p95_ms": null
+      },
+      "sse": {
+        "clients": 0,
+        "events": [],
+        "max_gap_ms": null,
+        "busy": null,
+        "rejected": null,
+        "expired": null
+      },
+      "tx_failed": 0,
+      "strict_pass": true,
+      "before_start_breakdown": {
+        "iram_bytes": 83456,
+        "globals_bytes": 32324,
+        "system_heap_and_reserves_bytes": 79224,
+        "library_archive_resident_bytes": 28,
+        "demo_archive_resident_bytes": 1428
+      }
+    },
+    {
+      "board": "c3",
+      "profile": 2,
+      "firmware": "0.9.0-profile2",
+      "seconds": 45,
+      "physical_bytes": 409600,
+      "heap_before": 214444,
+      "heap_after": 180596,
+      "startup_heap_bytes": 33848,
+      "idle_free_bytes": 180816,
+      "minimum_sampled_free_bytes": 156524,
+      "minimum_sampled_largest_bytes": 114688,
+      "idle_cpu_percent": 1.5754340782587024,
+      "active_cpu_percent": 7.20430651803498,
+      "api": {
+        "ok": 44,
+        "errors": 0,
+        "latency": {
+          "n": 44,
+          "p50": 22.553699999989476,
+          "p95": 36.555999999982305,
+          "p99": 39.622300000017276
+        }
+      },
+      "page": {
+        "ok": 23,
+        "errors": 0,
+        "latency": {
+          "n": 23,
+          "p50": 24.019499999994878,
+          "p95": 37.01490000000922,
+          "p99": 44.23710000002757
+        }
+      },
+      "ws": {
+        "clients": 3,
+        "sent": 267,
+        "echoes": 267,
+        "rejected": 0,
+        "max_p95_ms": 37.12100000001374
+      },
+      "sse": {
+        "clients": 0,
+        "events": [],
+        "max_gap_ms": null,
+        "busy": null,
+        "rejected": null,
+        "expired": null
+      },
+      "tx_failed": 0,
+      "strict_pass": true,
+      "before_start_breakdown": {
+        "iram_bytes": 83456,
+        "globals_bytes": 32452,
+        "system_heap_and_reserves_bytes": 79248,
+        "library_archive_resident_bytes": 28,
+        "demo_archive_resident_bytes": 1556
+      }
+    },
+    {
+      "board": "c3",
+      "profile": 3,
+      "firmware": "0.9.2-profile3",
+      "seconds": 45,
+      "physical_bytes": 409600,
+      "heap_before": 212596,
+      "heap_after": 170984,
+      "startup_heap_bytes": 41612,
+      "idle_free_bytes": 170560,
+      "minimum_sampled_free_bytes": 112368,
+      "minimum_sampled_largest_bytes": 94208,
+      "idle_cpu_percent": 1.688562416998672,
+      "active_cpu_percent": 10.848751326025459,
+      "api": {
+        "ok": 44,
+        "errors": 0,
+        "latency": {
+          "n": 44,
+          "p50": 23.788999999989755,
+          "p95": 42.16679999999906,
+          "p99": 60.18080000000191
+        }
+      },
+      "page": {
+        "ok": 23,
+        "errors": 0,
+        "latency": {
+          "n": 23,
+          "p50": 30.819799999997485,
+          "p95": 61.91700000000128,
+          "p99": 61.92250000000058
+        }
+      },
+      "ws": {
+        "clients": 6,
+        "sent": 540,
+        "echoes": 540,
+        "rejected": 0,
+        "max_p95_ms": 51.998099999997066
+      },
+      "sse": {
+        "clients": 4,
+        "events": [
+          46,
+          46,
+          46,
+          46
+        ],
+        "max_gap_ms": 1731.346900000004,
+        "busy": 0,
+        "rejected": 0,
+        "expired": 0
+      },
+      "tx_failed": 0,
+      "strict_pass": true,
+      "before_start_breakdown": {
+        "iram_bytes": 83456,
+        "globals_bytes": 34324,
+        "system_heap_and_reserves_bytes": 79224,
+        "library_archive_resident_bytes": 28,
+        "demo_archive_resident_bytes": 3420
+      }
+    },
+    {
+      "board": "s3",
+      "profile": 1,
+      "firmware": "0.9.0-profile1",
+      "seconds": 45,
+      "physical_bytes": 524288,
+      "heap_before": 279008,
+      "heap_after": 259900,
+      "startup_heap_bytes": 19108,
+      "idle_free_bytes": 259496,
+      "minimum_sampled_free_bytes": 259152,
+      "minimum_sampled_largest_bytes": 212992,
+      "idle_cpu_percent": 1.1141504733432985,
+      "active_cpu_percent": 1.897056087187666,
+      "api": {
+        "ok": 44,
+        "errors": 0,
+        "latency": {
+          "n": 44,
+          "p50": 25.056199999991804,
+          "p95": 52.13259999999718,
+          "p99": 62.580599999993865
+        }
+      },
+      "page": {
+        "ok": 0,
+        "errors": 0,
+        "latency": {
+          "n": 0,
+          "p50": null,
+          "p95": null,
+          "p99": null
+        }
+      },
+      "ws": {
+        "clients": 0,
+        "sent": 0,
+        "echoes": 0,
+        "rejected": 0,
+        "max_p95_ms": null
+      },
+      "sse": {
+        "clients": 0,
+        "events": [],
+        "max_gap_ms": null,
+        "busy": null,
+        "rejected": null,
+        "expired": null
+      },
+      "tx_failed": 0,
+      "strict_pass": true,
+      "before_start_breakdown": {
+        "iram_bytes": 88576,
+        "globals_bytes": 37892,
+        "system_heap_and_reserves_bytes": 118812,
+        "library_archive_resident_bytes": 28,
+        "demo_archive_resident_bytes": 1428
+      }
+    },
+    {
+      "board": "s3",
+      "profile": 2,
+      "firmware": "0.9.0-profile2",
+      "seconds": 45,
+      "physical_bytes": 524288,
+      "heap_before": 278900,
+      "heap_after": 246240,
+      "startup_heap_bytes": 32660,
+      "idle_free_bytes": 245804,
+      "minimum_sampled_free_bytes": 222380,
+      "minimum_sampled_largest_bytes": 172032,
+      "idle_cpu_percent": 1.157603993344426,
+      "active_cpu_percent": 5.252351276963814,
+      "api": {
+        "ok": 44,
+        "errors": 0,
+        "latency": {
+          "n": 44,
+          "p50": 22.540900000021793,
+          "p95": 40.83739999998943,
+          "p99": 45.11920000001555
+        }
+      },
+      "page": {
+        "ok": 23,
+        "errors": 0,
+        "latency": {
+          "n": 23,
+          "p50": 25.53890000001411,
+          "p95": 41.99549999998999,
+          "p99": 44.294800000003306
+        }
+      },
+      "ws": {
+        "clients": 3,
+        "sent": 270,
+        "echoes": 270,
+        "rejected": 0,
+        "max_p95_ms": 41.27950000000419
+      },
+      "sse": {
+        "clients": 0,
+        "events": [],
+        "max_gap_ms": null,
+        "busy": null,
+        "rejected": null,
+        "expired": null
+      },
+      "tx_failed": 0,
+      "strict_pass": true,
+      "before_start_breakdown": {
+        "iram_bytes": 88576,
+        "globals_bytes": 38020,
+        "system_heap_and_reserves_bytes": 118792,
+        "library_archive_resident_bytes": 28,
+        "demo_archive_resident_bytes": 1556
+      }
+    },
+    {
+      "board": "s3",
+      "profile": 3,
+      "firmware": "0.9.2-profile3",
+      "seconds": 45,
+      "physical_bytes": 524288,
+      "heap_before": 277056,
+      "heap_after": 235888,
+      "startup_heap_bytes": 41168,
+      "idle_free_bytes": 235484,
+      "minimum_sampled_free_bytes": 188208,
+      "minimum_sampled_largest_bytes": 135168,
+      "idle_cpu_percent": 1.277078076648516,
+      "active_cpu_percent": 8.833344868645312,
+      "api": {
+        "ok": 44,
+        "errors": 0,
+        "latency": {
+          "n": 44,
+          "p50": 23.62860000001092,
+          "p95": 37.46920000000682,
+          "p99": 46.04809999999998
+        }
+      },
+      "page": {
+        "ok": 23,
+        "errors": 0,
+        "latency": {
+          "n": 23,
+          "p50": 27.356299999999464,
+          "p95": 47.683700000008685,
+          "p99": 49.298500000004424
+        }
+      },
+      "ws": {
+        "clients": 6,
+        "sent": 540,
+        "echoes": 539,
+        "rejected": 1,
+        "max_p95_ms": 44.369299999998475
+      },
+      "sse": {
+        "clients": 4,
+        "events": [
+          46,
+          46,
+          46,
+          46
+        ],
+        "max_gap_ms": 1663.4121999999916,
+        "busy": 18,
+        "rejected": 0,
+        "expired": 0
+      },
+      "tx_failed": 0,
+      "strict_pass": false,
+      "before_start_breakdown": {
+        "iram_bytes": 88576,
+        "globals_bytes": 39844,
+        "system_heap_and_reserves_bytes": 118812,
+        "library_archive_resident_bytes": 28,
+        "demo_archive_resident_bytes": 3380
+      }
+    }
+  ],
+  "page_storage": {
+    "production_gzip_bytes": 7773,
+    "production_section": ".flash.rodata",
+    "fixture_html_bytes_including_null": 409,
+    "fixture_section": ".flash.rodata",
+    "full_page_ram_copy": false
+  }
+}

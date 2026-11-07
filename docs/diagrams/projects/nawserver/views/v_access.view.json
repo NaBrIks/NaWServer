@@ -1,0 +1,185 @@
+{
+  "id": "v_access",
+  "project": "nawserver",
+  "axis": "axis_proposal",
+  "placements": [
+    {
+      "entity": "e_access_routes_zone",
+      "parent": null,
+      "x": 40,
+      "y": 40,
+      "width": 340,
+      "height": 480,
+      "override": {
+        "border": {
+          "color": "#fde68a"
+        },
+        "fill": "#fffbeb",
+        "header": {
+          "fill": "#fef3c7"
+        }
+      }
+    },
+    {
+      "entity": "e_access_guards_zone",
+      "parent": null,
+      "x": 420,
+      "y": 40,
+      "width": 700,
+      "height": 480,
+      "override": {
+        "border": {
+          "color": "#93c5fd"
+        },
+        "fill": "#eff6ff",
+        "header": {
+          "fill": "#dbeafe"
+        }
+      }
+    },
+    {
+      "entity": "e_access_app_zone",
+      "parent": null,
+      "x": 1160,
+      "y": 40,
+      "width": 340,
+      "height": 480,
+      "override": {
+        "border": {
+          "color": "#86efac"
+        },
+        "fill": "#f0fdf4",
+        "header": {
+          "fill": "#dcfce7"
+        }
+      }
+    },
+    {
+      "entity": "e_access_data_zone",
+      "parent": null,
+      "x": 420,
+      "y": 590,
+      "width": 1080,
+      "height": 230,
+      "override": {
+        "border": {
+          "color": "#c4b5fd"
+        },
+        "fill": "#f5f3ff",
+        "header": {
+          "fill": "#ede9fe"
+        }
+      }
+    },
+    {
+      "entity": "e_access_public",
+      "parent": "e_access_routes_zone",
+      "x": 70,
+      "y": 120,
+      "width": 280,
+      "height": 70
+    },
+    {
+      "entity": "e_access_protected",
+      "parent": "e_access_routes_zone",
+      "x": 70,
+      "y": 350,
+      "width": 280,
+      "height": 70
+    },
+    {
+      "entity": "e_principal",
+      "parent": "e_access_guards_zone",
+      "x": 460,
+      "y": 200,
+      "width": 620,
+      "height": 70
+    },
+    {
+      "entity": "e_authenticator",
+      "parent": "e_access_guards_zone",
+      "x": 460,
+      "y": 350,
+      "width": 280,
+      "height": 70
+    },
+    {
+      "entity": "e_authorizer",
+      "parent": "e_access_guards_zone",
+      "x": 800,
+      "y": 350,
+      "width": 280,
+      "height": 70
+    },
+    {
+      "entity": "e_public_readings",
+      "parent": "e_access_app_zone",
+      "x": 1190,
+      "y": 120,
+      "width": 280,
+      "height": 70
+    },
+    {
+      "entity": "e_private_commands",
+      "parent": "e_access_app_zone",
+      "x": 1190,
+      "y": 350,
+      "width": 280,
+      "height": 70
+    },
+    {
+      "entity": "e_user_store",
+      "parent": "e_access_data_zone",
+      "x": 460,
+      "y": 670,
+      "width": 280,
+      "height": 70
+    },
+    {
+      "entity": "e_roles_catalog",
+      "parent": "e_access_data_zone",
+      "x": 820,
+      "y": 670,
+      "width": 280,
+      "height": 70
+    },
+    {
+      "entity": "e_sessions_ram",
+      "parent": "e_access_data_zone",
+      "x": 1180,
+      "y": 670,
+      "width": 280,
+      "height": 70
+    },
+    {
+      "entity": "e_build_choice",
+      "parent": null,
+      "x": 40,
+      "y": 650,
+      "width": 340,
+      "height": 70
+    },
+    {
+      "entity": "e_access_phase",
+      "parent": null,
+      "x": 460,
+      "y": 880,
+      "width": 1000,
+      "height": 70
+    },
+    {
+      "entity": "e_access_sse_open",
+      "parent": "e_access_app_zone",
+      "x": 1190,
+      "y": 230,
+      "width": 280,
+      "height": 70
+    }
+  ],
+  "routing": "orthogonal",
+  "relations": {
+    "except": [
+      "r_authorizer_roles_catalog_storage"
+    ]
+  }
+}

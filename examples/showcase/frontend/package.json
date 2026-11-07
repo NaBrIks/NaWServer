@@ -1,0 +1,10 @@
+{
+  "name": "@nawserver/showcase",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --config ../../../frontend/vite.config.ts --mode showcase --host 127.0.0.1",
+    "build": "node ../../../frontend/tools/build.mjs showcase"
+  },
+  "version": "0.1.0"
+}

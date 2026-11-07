@@ -1,0 +1,54 @@
+# PlatformIO / ESP-IDF generated files
+.pio/
+build/
+managed_components/
+sdkconfig
+sdkconfig.old
+sdkconfig.*.old
+sdkconfig.esp32*
+sdkconfig.c3
+sdkconfig.c3_std
+sdkconfig.s3
+sdkconfig.s2
+sdkconfig.c6
+dependencies.lock
+
+# Local credentials and machine configuration
+platformio.local.ini
+wifi_secret.hpp
+.env
+.env.*
+!.env.example
+!.env.*.example
+.private/
+.local/
+.semaps/
+wifi_config.h
+
+# Flash backups, serial logs, local reports and test executables
+backups/
+local/
+*.log
+*.bin
+*.uf2
+*.elf
+*.map
+*.o
+*.obj
+*.a
+*.exe
+*.pdb
+
+# Frontend dependencies and caches (keep committed web assets)
+node_modules/
+.vite/
+
+# IDE and tool caches
+.vs/
+*.user
+.zig-cache/
+zig-out/
+__pycache__/
+*.pyc
+.DS_Store
+Thumbs.db

@@ -1,0 +1,154 @@
+{
+  "id": "v_context",
+  "project": "nawserver",
+  "axis": "axis_boundary",
+  "placements": [
+    {
+      "entity": "e_firmware",
+      "parent": null,
+      "x": 400,
+      "y": 40,
+      "width": 900,
+      "height": 760,
+      "override": {
+        "border": {
+          "color": "#86efac"
+        },
+        "fill": "#f0fdf4",
+        "header": {
+          "fill": "#dcfce7"
+        }
+      }
+    },
+    {
+      "entity": "e_library",
+      "parent": "e_firmware",
+      "x": 440,
+      "y": 100,
+      "width": 820,
+      "height": 360,
+      "override": {
+        "border": {
+          "color": "#93c5fd"
+        },
+        "fill": "#eff6ff",
+        "header": {
+          "fill": "#dbeafe"
+        }
+      }
+    },
+    {
+      "entity": "e_browser",
+      "parent": null,
+      "x": 40,
+      "y": 130,
+      "width": 290,
+      "height": 60
+    },
+    {
+      "entity": "e_monitor",
+      "parent": null,
+      "x": 40,
+      "y": 20,
+      "width": 290,
+      "height": 60
+    },
+    {
+      "entity": "e_server",
+      "parent": "e_library",
+      "x": 480,
+      "y": 170,
+      "width": 330,
+      "height": 60
+    },
+    {
+      "entity": "e_ws",
+      "parent": "e_library",
+      "x": 480,
+      "y": 270,
+      "width": 330,
+      "height": 60
+    },
+    {
+      "entity": "e_auth",
+      "parent": "e_library",
+      "x": 870,
+      "y": 170,
+      "width": 330,
+      "height": 60
+    },
+    {
+      "entity": "e_statics",
+      "parent": "e_library",
+      "x": 870,
+      "y": 270,
+      "width": 330,
+      "height": 60
+    },
+    {
+      "entity": "e_wifi",
+      "parent": "e_firmware",
+      "x": 440,
+      "y": 520,
+      "width": 330,
+      "height": 60
+    },
+    {
+      "entity": "e_app_store",
+      "parent": "e_firmware",
+      "x": 890,
+      "y": 520,
+      "width": 330,
+      "height": 60
+    },
+    {
+      "entity": "e_routes",
+      "parent": "e_firmware",
+      "x": 440,
+      "y": 660,
+      "width": 330,
+      "height": 60
+    },
+    {
+      "entity": "e_producer",
+      "parent": "e_firmware",
+      "x": 890,
+      "y": 660,
+      "width": 330,
+      "height": 60
+    },
+    {
+      "entity": "e_boundary_note",
+      "parent": null,
+      "x": 440,
+      "y": 860,
+      "width": 820,
+      "height": 60
+    },
+    {
+      "entity": "e_response",
+      "parent": "e_library",
+      "x": 870,
+      "y": 370,
+      "width": 330,
+      "height": 60
+    },
+    {
+      "entity": "e_sse",
+      "parent": "e_library",
+      "x": 480,
+      "y": 370,
+      "width": 330,
+      "height": 60
+    }
+  ],
+  "routing": "orthogonal",
+  "relations": {
+    "except": [
+      "r_routes_response_call",
+      "r_routes_sse_call",
+      "r_producer_sse_call",
+      "r_routes_server_depends"
+    ]
+  }
+}

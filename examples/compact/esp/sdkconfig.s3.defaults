@@ -1,0 +1,8 @@
+# Shared S3 16 MiB profile. Never use these offsets for another board by assumption.
+CONFIG_PARTITION_TABLE_CUSTOM_FILENAME="partitions.s3.csv"
+# CONFIG_ESPTOOLPY_FLASHSIZE_4MB is not set
+CONFIG_ESPTOOLPY_FLASHSIZE_16MB=y
+# The S3 HTTP dispatcher overflowed its 6144-byte stack under normal requests.
+CONFIG_NAWSERVER_TCP_HTTP_STACK_SIZE=8192
+# The demo main task also publishes SSE and can overflow during concurrent OTA.
+CONFIG_ESP_MAIN_TASK_STACK_SIZE=8192

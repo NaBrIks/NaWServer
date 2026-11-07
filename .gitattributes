@@ -1,0 +1,18 @@
+# Match the owner's Uncrustify newline policy for maintained C/C++ only.
+# This overrides core.autocrlf for checkout; it does not format source code.
+*.c   text eol=lf
+*.cc  text eol=lf
+*.cpp text eol=lf
+*.cxx text eol=lf
+*.h   text eol=lf
+*.hh  text eol=lf
+*.hpp text eol=lf
+*.hxx text eol=lf
+
+# Keep excluded sources/assets under their existing Git conversion policy.
+# Do not renormalize or reformat their blobs/notices as part of this policy.
+**/third_party/** !text !eol
+**/vendor/**      !text !eol
+**/generated/**   !text !eol
+**/fonts/**       !text !eol
+**/assets.hpp     !text !eol

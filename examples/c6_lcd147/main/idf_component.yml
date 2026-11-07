@@ -1,0 +1,3 @@
+dependencies:
+  espressif/cbor: "0.6.1~4"
+  espressif/led_strip: "3.0.1"

@@ -1,0 +1,15 @@
+{
+  "tools/sse/encoder.hpp": "848039b0fe6f4ccad0c3909e160ba655c5fa426ede6a3aa5b84e386f497c9871",
+  "tools/sse/encoder.cpp": "b6b9232a586e14670b4e7ccceec94ab60c4a7e9f23b2ff97f3d2b2b912109cd4",
+  "tools/sse/session.hpp": "25398bb3eb6838779a28ac9de3e61d6729fe6293d695a9ac7abc5837fc4aae56",
+  "tools/sse/adapter_idf.hpp": "b654560f30db847b6213899dc25ba5989698d765039823bd8724947b30964f9f",
+  "tools/sse/adapter_idf.cpp": "3f3c26f212fb5aee48a48bae2991e4f7aaf7ca7a6f5316497a2487a1fe2dd976",
+  "tools/sse/checks.hpp": "ab741499d8619bf9de00206887f248697d88efdd4836ea38936c037279fad294",
+  "tools/sse/checks.cpp": "449b0de7a9d19c9ae848fdd57b0f64dbd739d6306b3be57396154ec794ce2da0",
+  "tools/sse/device/main/main.cpp": "31156ddb6f066c35377352119cbd0e6ec14a49c4bec7947e276e32630abdc173",
+  "tools/sse/device/main/CMakeLists.txt": "d1655915dce05e7ccc8de997e7463577249fbbdf5d4ac2074457fdf97e8a2d3e",
+  "tools/sse/device/CMakeLists.txt": "ea0607bae2c77b6f68a85e8cba10133e732fd8f33eeb2cf99d50f8f961ee5b9b",
+  "tools/sse/device/platformio.ini": "3c217530e72919d058284427ade348af34ac1591a40269a927def931ec7881ba",
+  "tools/sse/device/sdkconfig.defaults": "bce1a09cb46dfaf8aa5191f125079e5207425e42c4d83ad69cbc5e23815c34db",
+  "tools/sse/device/partitions.csv": "09f948f061422fd90eb9bebbf963306eb2ad18fe7326625e05a5bb15c3841d8c"
+}

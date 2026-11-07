@@ -1,0 +1,195 @@
+/* ==========================================================================
+   LinguaUnlock Studio — Industrial Design System
+   Principle: Maximum Information Density & Zero Wasted Space.
+   CRITICAL: Keep readable, high-contrast, comfortable font sizes (no micro-fonts).
+   Density is achieved strictly through tight paddings, small margins, and minimal gaps.
+   Themes: Adapted from the owner's shared UI project (Cream [favorite!], Dark, Emerald, Light).
+   ========================================================================== */
+
+/* ==========================================================================
+   THEME DEFINITIONS (from the owner's shared themes.css & Cream.axaml)
+   ========================================================================== */
+
+/* ── Cream (Light Warm - User Favorite & Default) ───────────────────────── */
+:root,
+.lu-shell[data-theme="cream"],
+[data-theme="cream"] {
+    --lu-bg-canvas: #fdfbf7;
+    --lu-surface: #f5f2eb;
+    --lu-surface-alt: #efeadd;
+    --lu-border: #ddd2b9;
+    --lu-border-light: #e8e2d2;
+    --lu-border-subtle: #f0ebe0;
+
+    --lu-text: #4a3b2c;
+    --lu-text-muted: #7c6b5b;
+    --lu-text-subtle: #a69886;
+
+    /* Full-width Topbar & Sidebar */
+    --lu-topbar-bg: #eae5d8;
+    --lu-topbar-text: #4a3b2c;
+    --lu-topbar-border: #ddd2b9;
+
+    --lu-sidebar-bg: #f5f2eb;
+    --lu-sidebar-text: #5c4a37;
+    --lu-sidebar-hover: #eae5d8;
+    --lu-sidebar-active: #e18f2f;
+
+    /* Accents & Roles */
+    --lu-primary: #e18f2f;
+    --lu-primary-hover: #c87a20;
+    --lu-primary-light: #fff2dc;
+    /* Строка таблицы под курсором: заметнее «primary-light», чтобы в широкой таблице было видно, чья кнопка справа. */
+    --lu-row-hover: rgba(225, 143, 47, 0.28);
+    --lu-success: #2e9e5b;
+    --lu-success-light: #eaf6ee;
+    --lu-warning: #c8841f;
+    --lu-warning-light: #fdf4e7;
+    --lu-danger: #c0392b;
+    --lu-danger-light: #fae9e8;
+    --lu-info: #2563eb;
+    --lu-info-light: #eff6ff;
+
+    --lu-input-bg: #ffffff;
+    --lu-input-border: #d8d2c2;
+    --lu-input-text: #4a3b2c;
+
+    --lu-code-bg: #efeadd;
+    --lu-code-border: #ddd2b9;
+    --lu-code-fg: #9a5308;
+}
+
+/* ── Dark (Neutral Dark) ────────────────────────────────────────────────── */
+.lu-shell[data-theme="dark"],
+[data-theme="dark"] {
+    --lu-bg-canvas: #1e1e1e;
+    --lu-surface: #252526;
+    --lu-surface-alt: #2d2d30;
+    --lu-border: #444448;
+    --lu-border-light: #38383c;
+    --lu-border-subtle: #2d2d30;
+
+    --lu-text: #f0f0f0;
+    --lu-text-muted: #b0b8c0;
+    --lu-text-subtle: #80868e;
+
+    --lu-topbar-bg: #181818;
+    --lu-topbar-text: #f0f0f0;
+    --lu-topbar-border: #38383c;
+
+    --lu-sidebar-bg: #252526;
+    --lu-sidebar-text: #d0d7de;
+    --lu-sidebar-hover: #323236;
+    --lu-sidebar-active: #4ea1ff;
+
+    --lu-primary: #4ea1ff;
+    --lu-primary-hover: #3a8fe6;
+    --lu-primary-light: rgba(78, 161, 255, 0.18);
+    --lu-row-hover: rgba(78, 161, 255, 0.30);
+    --lu-success: #34c759;
+    --lu-success-light: rgba(52, 199, 89, 0.18);
+    --lu-warning: #e5a83b;
+    --lu-warning-light: rgba(229, 168, 59, 0.18);
+    --lu-danger: #f87171;
+    --lu-danger-light: rgba(248, 113, 113, 0.18);
+    --lu-info: #4ea1ff;
+    --lu-info-light: rgba(78, 161, 255, 0.18);
+
+    --lu-input-bg: #1a1a1a;
+    --lu-input-border: #444448;
+    --lu-input-text: #f0f0f0;
+
+    --lu-code-bg: #181818;
+    --lu-code-border: #38383c;
+    --lu-code-fg: #79b8ff;
+}
+
+/* ── Emerald (Dark Forest Green) ────────────────────────────────────────── */
+.lu-shell[data-theme="emerald"],
+[data-theme="emerald"] {
+    --lu-bg-canvas: #0f1714;
+    --lu-surface: #16221d;
+    --lu-surface-alt: #1c2e27;
+    --lu-border: #233d31;
+    --lu-border-light: #2b4b3c;
+    --lu-border-subtle: #192b23;
+
+    --lu-text: #e6f6ee;
+    --lu-text-muted: #a6cbb8;
+    --lu-text-subtle: #759a89;
+
+    --lu-topbar-bg: #0a110e;
+    --lu-topbar-text: #e6f6ee;
+    --lu-topbar-border: #1f352b;
+
+    --lu-sidebar-bg: #16221d;
+    --lu-sidebar-text: #c0decf;
+    --lu-sidebar-hover: #22372f;
+    --lu-sidebar-active: #10b981;
+
+    --lu-primary: #10b981;
+    --lu-primary-hover: #059669;
+    --lu-primary-light: rgba(16, 185, 129, 0.18);
+    --lu-row-hover: rgba(16, 185, 129, 0.30);
+    --lu-success: #10b981;
+    --lu-success-light: rgba(16, 185, 129, 0.18);
+    --lu-warning: #e5a83b;
+    --lu-warning-light: rgba(229, 168, 59, 0.18);
+    --lu-danger: #f87171;
+    --lu-danger-light: rgba(248, 113, 113, 0.18);
+    --lu-info: #38bdf8;
+    --lu-info-light: rgba(56, 189, 248, 0.18);
+
+    --lu-input-bg: #0d1411;
+    --lu-input-border: #233d31;
+    --lu-input-text: #e6f6ee;
+
+    --lu-code-bg: #0d1411;
+    --lu-code-border: #233d31;
+    --lu-code-fg: #34d399;
+}
+
+/* ── Light (Neutral Clean White) ────────────────────────────────────────── */
+.lu-shell[data-theme="light"],
+[data-theme="light"] {
+    --lu-bg-canvas: #ffffff;
+    --lu-surface: #f8f9fa;
+    --lu-surface-alt: #f1f3f5;
+    --lu-border: #dcdcdc;
+    --lu-border-light: #e5e5e5;
+    --lu-border-subtle: #f0f0f0;
+
+    --lu-text: #1f2328;
+    --lu-text-muted: #57606a;
+    --lu-text-subtle: #8c959f;
+
+    --lu-topbar-bg: #1f2328;
+    --lu-topbar-text: #ffffff;
+    --lu-topbar-border: #30363d;
+
+    --lu-sidebar-bg: #f6f8fa;
+    --lu-sidebar-text: #24292f;
+    --lu-sidebar-hover: #eaeef2;
+    --lu-sidebar-active: #2563eb;
+
+    --lu-primary: #2563eb;
+    --lu-primary-hover: #1d4ed8;
+    --lu-primary-light: rgba(37, 99, 235, 0.12);
+    --lu-row-hover: rgba(37, 99, 235, 0.20);
+    --lu-success: #1f8b4c;
+    --lu-success-light: #dcfce7;
+    --lu-warning: #b8860b;
+    --lu-warning-light: #fef3c7;
+    --lu-danger: #c0392b;
+    --lu-danger-light: #fee2e2;
+    --lu-info: #0284c7;
+    --lu-info-light: #e0f2fe;
+
+    --lu-input-bg: #ffffff;
+    --lu-input-border: #dcdcdc;
+    --lu-input-text: #1f2328;
+
+    --lu-code-bg: #f3f4f6;
+    --lu-code-border: #e2e4e8;
+    --lu-code-fg: #0969da;
+}

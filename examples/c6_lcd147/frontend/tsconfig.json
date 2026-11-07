@@ -1,0 +1,20 @@
+{
+  "include": [
+    "../../../frontend/src/**/*.ts",
+    "../../../frontend/src/**/*.vue",
+    "./*.ts",
+    "./*.vue"
+  ],
+  "compilerOptions": {
+    "paths": {
+      "@project": [
+        "./project.ts"
+      ],
+      "@frontend/*": [
+        "../../../frontend/src/*"
+      ]
+    },
+    "baseUrl": "."
+  },
+  "extends": "../../../frontend/tsconfig.json"
+}

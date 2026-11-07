@@ -1,0 +1,29 @@
+{
+  "name": "NaWServer",
+  "description": "Portable C++17 HTTP, WebSocket and SSE server with bounded memory and streaming I/O",
+  "keywords": "cpp17, embedded, http-server, websocket, sse, esp32, rp2350, freertos, lwip, mcp",
+  "version": "0.2.0",
+  "authors": [
+    {
+      "name": "KOE",
+      "url": "https://github.com/KOE73"
+    }
+  ],
+  "frameworks": "espidf",
+  "platforms": [
+    "espressif32"
+  ],
+  "dependencies": [],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/NaBrIks/NaWServer.git"
+  },
+  "build": {
+    "includeDir": "include",
+    "srcDir": "src",
+    "flags": [
+      "-std=gnu++17"
+    ]
+  }
+}

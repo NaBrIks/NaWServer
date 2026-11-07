@@ -1,0 +1,5 @@
+# Alternative reader profile; input/output contracts remain shared.
+# CONFIG_NAWSERVER_JSON_BOUNDED is not set
+# CONFIG_NAWSERVER_JSON_YYJSON is not set
+CONFIG_NAWSERVER_JSON_RAPIDJSON=y
+CONFIG_NAWSERVER_JSON_WORKSPACE_BYTES=8192

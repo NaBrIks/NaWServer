@@ -1,0 +1,21 @@
+import {test} from 'node:test';
+import assert from 'node:assert/strict';
+import {McpClient,MCP_VERSION} from '../http-test/mcp-client.js';
+function fixture(change=()=>{}){const calls=[];const fetcher=async(path,init)=>{const request=JSON.parse(init.body);calls.push({path,init,request});const result={resultType:'complete',...(request.method==='server/discover'?{supportedVersions:[MCP_VERSION],_meta:{'io.modelcontextprotocol/serverInfo':{name:'TEST FIXTURE',version:'1'}},capabilities:{tools:{listChanged:false}}}:request.method==='tools/list'?{tools:[{name:'echo',inputSchema:{type:'object'}}]}:{content:[{type:'text',text:request.params?.arguments?.text??''}],isError:false})};const response=Response.json({jsonrpc:'2.0',id:request.id,result});return change(request,response)??response};return {client:new McpClient(fetcher),calls}}
+test('direct current MCP discovery includes protocol metadata and method/name headers',async()=>{const {client,calls}=fixture();await client.discover();assert.equal(client.ready,true);assert.deepEqual(calls.map(x=>x.request.method),['server/discover','tools/list']);assert(calls.every(x=>x.path==='/mcp'));for(const item of calls){assert.equal(item.init.headers['MCP-Protocol-Version'],MCP_VERSION);assert.equal(item.init.headers['Mcp-Method'],item.request.method);assert.equal(item.request.params._meta['io.modelcontextprotocol/protocolVersion'],MCP_VERSION)}assert.equal(calls[0].init.headers.Accept,'application/json, text/event-stream');assert.deepEqual(await client.call('echo','{"text":"Привет"}'),{resultType:'complete',content:[{type:'text',text:'Привет'}],isError:false});assert.equal(calls.at(-1).init.headers['Mcp-Name'],'echo');await assert.rejects(client.call('gpio','{}'),/advertised/);await assert.rejects(client.call('echo','[]'),/JSON object/)});
+test('disabled endpoint, JSON-RPC error, version/id/result-type mismatch never enable MCP',async()=>{for(const change of [()=>new Response('',{status:404}),r=>Response.json({jsonrpc:'2.0',id:r.id,error:{code:-32602,message:'Invalid params'}}),r=>Response.json({jsonrpc:'2.0',id:r.id,result:{resultType:'complete',supportedVersions:['old']}}),()=>Response.json({jsonrpc:'2.0',id:999,result:{resultType:'complete'}}),r=>Response.json({jsonrpc:'2.0',id:r.id,result:{resultType:'pending'}})]){const {client}=fixture(change);await assert.rejects(client.discover());assert.equal(client.ready,false)}});
+test('bounded output/request/transcript; tool errors remain MCP results',async()=>{const {client}=fixture(r=>r.method==='tools/call'?Response.json({jsonrpc:'2.0',id:r.id,result:{resultType:'complete',isError:true,content:[{type:'text',text:'rejected'}]}}):undefined);await client.discover();assert.equal((await client.call('echo','{}')).isError,true);await assert.rejects(client.call('echo',JSON.stringify({text:'я'.repeat(3000)})),/4096/);for(let i=0;i<20;i++)await client.call('echo','{}');assert.equal(client.transcript.length,12);const {client:large}=fixture(()=>new Response('x'.repeat(16385)));await assert.rejects(large.discover(),/16384/)});
+test('unsafe integer arguments never reach fetch; exact int64 and uint64 response bytes survive',async()=>{
+ const {client,calls}=fixture(r=>r.method==='tools/call'?new Response('{"jsonrpc":"2.0","id":'+r.id+',"result":{"resultType":"complete","content":[],"signed":9223372036854775807,"unsigned":18446744073709551615}}',{headers:{'Content-Type':'application/json'}}):undefined);
+ await client.discover();const count=calls.length;
+ for(const text of ['{"value":9223372036854775807}','{"value":18446744073709551615}','{"nested":[-9223372036854775808]}','{"value":1e400}'])await assert.rejects(client.call('echo',text),/integer range/);
+ assert.equal(calls.length,count);
+ await client.call('echo','{"value":9007199254740991}');
+ assert(client.lastResponseText.includes('"signed":9223372036854775807'));
+ assert(client.lastResponseText.includes('"unsigned":18446744073709551615'));
+ assert.equal(client.transcript[0].response,client.lastResponseText);
+});
+test('HTTP JSON-RPC errors remain distinct from unavailable endpoints',async()=>{
+ const {client}=fixture(r=>Response.json({jsonrpc:'2.0',id:r.id,error:{code:-32601,message:'Method unsupported'}},{status:404}));
+ await assert.rejects(client.discover(),/HTTP 404 · JSON-RPC -32601/);assert.equal(client.ready,false);
+});

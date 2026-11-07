@@ -1,0 +1,169 @@
+{
+  "id": "v_app",
+  "project": "nawserver",
+  "axis": "axis_api",
+  "placements": [
+    {
+      "entity": "e_app_setup_zone",
+      "parent": null,
+      "x": 40,
+      "y": 40,
+      "width": 1600,
+      "height": 180,
+      "override": {
+        "border": {
+          "color": "#86efac"
+        },
+        "fill": "#f0fdf4",
+        "header": {
+          "fill": "#dcfce7"
+        }
+      }
+    },
+    {
+      "entity": "e_app_running_zone",
+      "parent": null,
+      "x": 40,
+      "y": 290,
+      "width": 1600,
+      "height": 180,
+      "override": {
+        "border": {
+          "color": "#93c5fd"
+        },
+        "fill": "#eff6ff",
+        "header": {
+          "fill": "#dbeafe"
+        }
+      }
+    },
+    {
+      "entity": "e_app_stop_zone",
+      "parent": null,
+      "x": 40,
+      "y": 540,
+      "width": 1600,
+      "height": 180,
+      "override": {
+        "border": {
+          "color": "#fde68a"
+        },
+        "fill": "#fffbeb",
+        "header": {
+          "fill": "#fef3c7"
+        }
+      }
+    },
+    {
+      "entity": "e_app_own",
+      "parent": "e_app_setup_zone",
+      "x": 80,
+      "y": 120,
+      "width": 320,
+      "height": 70
+    },
+    {
+      "entity": "e_app_register",
+      "parent": "e_app_setup_zone",
+      "x": 480,
+      "y": 120,
+      "width": 320,
+      "height": 70
+    },
+    {
+      "entity": "e_app_begin",
+      "parent": "e_app_setup_zone",
+      "x": 1280,
+      "y": 120,
+      "width": 320,
+      "height": 70
+    },
+    {
+      "entity": "e_app_incoming",
+      "parent": "e_app_running_zone",
+      "x": 80,
+      "y": 370,
+      "width": 320,
+      "height": 70
+    },
+    {
+      "entity": "e_app_outgoing",
+      "parent": "e_app_running_zone",
+      "x": 480,
+      "y": 370,
+      "width": 320,
+      "height": 70
+    },
+    {
+      "entity": "e_app_return",
+      "parent": "e_app_running_zone",
+      "x": 880,
+      "y": 370,
+      "width": 320,
+      "height": 70
+    },
+    {
+      "entity": "e_app_quiesce",
+      "parent": "e_app_stop_zone",
+      "x": 80,
+      "y": 620,
+      "width": 320,
+      "height": 70
+    },
+    {
+      "entity": "e_app_stop",
+      "parent": "e_app_stop_zone",
+      "x": 880,
+      "y": 620,
+      "width": 320,
+      "height": 70
+    },
+    {
+      "entity": "e_app_destroy",
+      "parent": "e_app_stop_zone",
+      "x": 1280,
+      "y": 620,
+      "width": 320,
+      "height": 70
+    },
+    {
+      "entity": "e_app_contract",
+      "parent": null,
+      "x": 80,
+      "y": 780,
+      "width": 720,
+      "height": 70
+    },
+    {
+      "entity": "e_app_shutdown_gap",
+      "parent": null,
+      "x": 880,
+      "y": 780,
+      "width": 720,
+      "height": 70
+    },
+    {
+      "entity": "e_app_sse_start",
+      "parent": "e_app_setup_zone",
+      "x": 880,
+      "y": 120,
+      "width": 320,
+      "height": 70
+    },
+    {
+      "entity": "e_app_sse_stop",
+      "parent": "e_app_stop_zone",
+      "x": 480,
+      "y": 620,
+      "width": 320,
+      "height": 70
+    }
+  ],
+  "routing": "orthogonal",
+  "relations": {
+    "except": [
+      "r_app_register_app_begin_call",
+      "r_app_quiesce_app_stop_data_flow"
+    ]
+  }
+}

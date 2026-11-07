@@ -1,0 +1,179 @@
+{
+  "id": "v_flow",
+  "project": "nawserver",
+  "axis": "axis_flow",
+  "placements": [
+    {
+      "entity": "e_flow_producer",
+      "parent": null,
+      "x": 40,
+      "y": 40,
+      "width": 1480,
+      "height": 200,
+      "override": {
+        "border": {
+          "color": "#86efac"
+        },
+        "fill": "#f0fdf4",
+        "header": {
+          "fill": "#dcfce7"
+        }
+      }
+    },
+    {
+      "entity": "e_flow_httpd",
+      "parent": null,
+      "x": 40,
+      "y": 390,
+      "width": 1480,
+      "height": 200,
+      "override": {
+        "border": {
+          "color": "#93c5fd"
+        },
+        "fill": "#eff6ff",
+        "header": {
+          "fill": "#dbeafe"
+        }
+      }
+    },
+    {
+      "entity": "e_flow_payload",
+      "parent": "e_flow_producer",
+      "x": 80,
+      "y": 120,
+      "width": 300,
+      "height": 70
+    },
+    {
+      "entity": "e_flow_copy",
+      "parent": "e_flow_producer",
+      "x": 440,
+      "y": 120,
+      "width": 300,
+      "height": 70
+    },
+    {
+      "entity": "e_flow_enqueue",
+      "parent": "e_flow_producer",
+      "x": 800,
+      "y": 120,
+      "width": 300,
+      "height": 70
+    },
+    {
+      "entity": "e_flow_return",
+      "parent": "e_flow_producer",
+      "x": 1160,
+      "y": 120,
+      "width": 300,
+      "height": 70
+    },
+    {
+      "entity": "e_flow_alive",
+      "parent": "e_flow_httpd",
+      "x": 80,
+      "y": 470,
+      "width": 300,
+      "height": 70
+    },
+    {
+      "entity": "e_flow_send",
+      "parent": "e_flow_httpd",
+      "x": 440,
+      "y": 470,
+      "width": 300,
+      "height": 70
+    },
+    {
+      "entity": "e_flow_free",
+      "parent": "e_flow_httpd",
+      "x": 800,
+      "y": 470,
+      "width": 300,
+      "height": 70
+    },
+    {
+      "entity": "e_flow_idle",
+      "parent": "e_flow_httpd",
+      "x": 1160,
+      "y": 470,
+      "width": 300,
+      "height": 70
+    },
+    {
+      "entity": "e_flow_failure",
+      "parent": null,
+      "x": 800,
+      "y": 280,
+      "width": 660,
+      "height": 60
+    },
+    {
+      "entity": "e_flow_lifetime",
+      "parent": null,
+      "x": 80,
+      "y": 660,
+      "width": 1380,
+      "height": 70
+    },
+    {
+      "entity": "e_flow_sse",
+      "parent": null,
+      "x": 40,
+      "y": 800,
+      "width": 1480,
+      "height": 360,
+      "override": {
+        "border": {
+          "color": "#5eead4"
+        },
+        "fill": "#f0fdfa",
+        "header": {
+          "fill": "#ccfbf1"
+        }
+      }
+    },
+    {
+      "entity": "e_sse_flow_open",
+      "parent": "e_flow_sse",
+      "x": 80,
+      "y": 880,
+      "width": 300,
+      "height": 70
+    },
+    {
+      "entity": "e_sse_flow_queue",
+      "parent": "e_flow_sse",
+      "x": 440,
+      "y": 880,
+      "width": 300,
+      "height": 70
+    },
+    {
+      "entity": "e_sse_flow_write",
+      "parent": "e_flow_sse",
+      "x": 800,
+      "y": 880,
+      "width": 300,
+      "height": 70
+    },
+    {
+      "entity": "e_sse_flow_complete",
+      "parent": "e_flow_sse",
+      "x": 1160,
+      "y": 880,
+      "width": 300,
+      "height": 70
+    },
+    {
+      "entity": "e_sse_flow_publish",
+      "parent": "e_flow_sse",
+      "x": 440,
+      "y": 1020,
+      "width": 300,
+      "height": 70
+    }
+  ],
+  "routing": "orthogonal"
+}

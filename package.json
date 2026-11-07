@@ -1,0 +1,17 @@
+{
+  "name": "nawserver-demos",
+  "private": true,
+  "workspaces": [
+    "frontend",
+    "examples/showcase/frontend",
+    "examples/touch_lcd7/frontend",
+    "examples/c6_lcd147/frontend"
+  ],
+  "scripts": {
+    "build": "npm run build --workspace @nawserver/frontend",
+    "build:c3": "npm run build --workspace @nawserver/showcase",
+    "build:s3": "npm run build --workspace @nawserver/touch-lcd7",
+    "build:c6": "node frontend/tools/build.mjs c6_lcd147",
+    "test": "node --test frontend/tests/*.test.mjs"
+  }
+}

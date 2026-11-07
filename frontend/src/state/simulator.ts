@@ -1,0 +1,7 @@
+import {ui,request,notify} from './device';import {t} from './appearance';import {cborBody} from '../contracts/cbor';import type {SimState} from '../contracts';
+let timer=0,started=false;
+async function getCbor(path:string){const r=await request(path);if(!r.ok)throw Error('HTTP '+r.status);return r.data;}
+async function simulatorPoll(){if(ui.info?.capabilities.simulator_control?.supported){try{const state=await getCbor('/sim/api/v2/state');if(state&&typeof state==='object'&&'profile'in state)ui.sim=state as SimState;const e=await getCbor(`/sim/api/v2/events?after=${ui.eventCursor}`);if(Array.isArray(e)){for(const item of e.slice(-200)){if(typeof item.id==='number'&&typeof item.message==='string'){ui.events.push(item);ui.eventCursor=Math.max(ui.eventCursor,item.id);}}ui.events=ui.events.slice(-200);}}catch{}}timer=window.setTimeout(simulatorPoll,1000);}
+export async function command(action:string,value?:string,number?:number){ui.pending=true;try{const r=await request('/sim/api/v2/command',{method:'POST',...cborBody({action,value,number})});if(!r.ok)throw new Error(`${r.status}: ${r.text}`);ui.sim=r.data as SimState;notify(action==='network'?t('Связь с моделью пропадёт на 8 секунд; пульт доступен','Model connection will drop for 8 seconds; controls remain available'):t('Модель обновлена','Model updated'),action==='network'?'warning':'success');}catch(e){notify(String(e),'error');}finally{ui.pending=false;}}
+
+export function startSimulator(){if(started)return;started=true;simulatorPoll();}

@@ -1,0 +1,13 @@
+{
+  "backend": "Windows",
+  "parameters": "/parameters",
+  "binary": "/echo",
+  "binaryAuth": false,
+  "methodMismatch": "/echo",
+  "forbidden": "/forbidden",
+  "websocket": "/ws",
+  "sse": "/events",
+  "ssePrivate": "/events/private",
+  "transport": "HTTP/1.1 + WebSocket · loopback",
+  "scope": "ESP32 в этих проверках не участвует"
+}

@@ -1,0 +1,9 @@
+{
+  "flash_bytes": 4194304,
+  "erase_bytes": 4096,
+  "partitions": [
+    {"name": "firmware", "offset": 0, "size": 2097152},
+    {"name": "fs", "type": "littlefs", "offset": 2097152, "size": 1835008},
+    {"name": "nvs", "type": "demo-kv-journal", "offset": 3932160, "size": 262144}
+  ]
+}

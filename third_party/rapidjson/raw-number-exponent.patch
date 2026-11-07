@@ -1,0 +1,20 @@
+diff --git a/include/rapidjson/reader.h b/include/rapidjson/reader.h
+index f7ef610..e00f7a7 100644
+--- a/include/rapidjson/reader.h
++++ b/include/rapidjson/reader.h
+@@ -1645,7 +1645,14 @@ private:
+ 
+             if (RAPIDJSON_LIKELY(s.Peek() >= '0' && s.Peek() <= '9')) {
+                 exp = static_cast<int>(s.Take() - '0');
+-                if (expMinus) {
++                if (parseFlags & kParseNumbersAsStringsFlag) {
++                    // NaWServer: raw callbacks own checked numeric conversion.
++                    // Exponent magnitude alone cannot reject zero or a finite
++                    // mantissa/exponent combination before that callback runs.
++                    while (RAPIDJSON_LIKELY(s.Peek() >= '0' && s.Peek() <= '9'))
++                        s.Take();
++                }
++                else if (expMinus) {
+                     // (exp + expFrac) must not underflow int => we're detecting when -exp gets
+                     // dangerously close to INT_MIN (a pessimistic next digit 9 would push it into
+                     // underflow territory):

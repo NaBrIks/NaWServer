@@ -1,0 +1,299 @@
+{
+  "id": "v_layers",
+  "project": "nawserver",
+  "axis": "axis_layer",
+  "placements": [
+    {
+      "entity": "e_layer_app",
+      "parent": null,
+      "x": 40,
+      "y": 40,
+      "width": 1240,
+      "height": 160,
+      "override": {
+        "border": {
+          "color": "#86efac"
+        },
+        "fill": "#f0fdf4",
+        "header": {
+          "fill": "#dcfce7"
+        }
+      },
+      "collapsed": false
+    },
+    {
+      "entity": "e_layer_web",
+      "parent": null,
+      "x": 40,
+      "y": 240,
+      "width": 1240,
+      "height": 530,
+      "override": {
+        "border": {
+          "color": "#93c5fd"
+        },
+        "fill": "#eff6ff",
+        "header": {
+          "fill": "#dbeafe"
+        }
+      }
+    },
+    {
+      "entity": "e_layer_sdk",
+      "parent": null,
+      "x": 40,
+      "y": 810,
+      "width": 1240,
+      "height": 380,
+      "override": {
+        "border": {
+          "color": "#c4b5fd"
+        },
+        "fill": "#f5f3ff",
+        "header": {
+          "fill": "#ede9fe"
+        }
+      }
+    },
+    {
+      "entity": "e_routes",
+      "parent": "e_layer_app",
+      "x": 80,
+      "y": 100,
+      "width": 320,
+      "height": 60
+    },
+    {
+      "entity": "e_producer",
+      "parent": "e_layer_app",
+      "x": 480,
+      "y": 100,
+      "width": 320,
+      "height": 60
+    },
+    {
+      "entity": "e_wifi",
+      "parent": "e_layer_app",
+      "x": 880,
+      "y": 100,
+      "width": 320,
+      "height": 60
+    },
+    {
+      "entity": "e_auth",
+      "parent": "e_layers_details",
+      "x": 70,
+      "y": 1290,
+      "width": 370,
+      "height": 60
+    },
+    {
+      "entity": "e_server",
+      "parent": "e_layers_details",
+      "x": 470,
+      "y": 1290,
+      "width": 370,
+      "height": 60
+    },
+    {
+      "entity": "e_ws",
+      "parent": "e_layers_details",
+      "x": 870,
+      "y": 1290,
+      "width": 370,
+      "height": 60
+    },
+    {
+      "entity": "e_container",
+      "parent": "e_layers_details",
+      "x": 70,
+      "y": 1370,
+      "width": 370,
+      "height": 60
+    },
+    {
+      "entity": "e_request",
+      "parent": "e_layers_details",
+      "x": 470,
+      "y": 1370,
+      "width": 370,
+      "height": 60
+    },
+    {
+      "entity": "e_statics",
+      "parent": "e_layers_details",
+      "x": 870,
+      "y": 1370,
+      "width": 370,
+      "height": 60
+    },
+    {
+      "entity": "e_rtos",
+      "parent": "e_layer_sdk",
+      "x": 90,
+      "y": 1090,
+      "width": 300,
+      "height": 60
+    },
+    {
+      "entity": "e_httpd",
+      "parent": "e_layer_sdk",
+      "x": 880,
+      "y": 860,
+      "width": 350,
+      "height": 60
+    },
+    {
+      "entity": "e_tcp",
+      "parent": "e_layers_details",
+      "x": 870,
+      "y": 1450,
+      "width": 370,
+      "height": 60
+    },
+    {
+      "entity": "e_model_note",
+      "parent": "e_layers_details",
+      "x": 70,
+      "y": 1530,
+      "width": 370,
+      "height": 60
+    },
+    {
+      "entity": "e_pending",
+      "parent": "e_layers_details",
+      "x": 470,
+      "y": 1530,
+      "width": 370,
+      "height": 60
+    },
+    {
+      "entity": "e_response",
+      "parent": "e_layers_details",
+      "x": 70,
+      "y": 1450,
+      "width": 370,
+      "height": 60
+    },
+    {
+      "entity": "e_sse",
+      "parent": "e_layers_details",
+      "x": 470,
+      "y": 1450,
+      "width": 370,
+      "height": 60
+    },
+    {
+      "entity": "e_layers_details",
+      "parent": null,
+      "x": 40,
+      "y": 1230,
+      "width": 1240,
+      "height": 390,
+      "collapsed": true
+    },
+    {
+      "entity": "e_layers_http_server",
+      "parent": "e_layer_web",
+      "x": 450,
+      "y": 300,
+      "width": 330,
+      "height": 60
+    },
+    {
+      "entity": "e_layers_http_backend",
+      "parent": "e_layer_web",
+      "x": 450,
+      "y": 410,
+      "width": 330,
+      "height": 60
+    },
+    {
+      "entity": "e_layers_tcp_backend",
+      "parent": "e_layer_web",
+      "x": 90,
+      "y": 530,
+      "width": 380,
+      "height": 60
+    },
+    {
+      "entity": "e_layers_httpd_backend",
+      "parent": "e_layer_web",
+      "x": 850,
+      "y": 530,
+      "width": 380,
+      "height": 60
+    },
+    {
+      "entity": "e_layers_idf_transport",
+      "parent": "e_layer_web",
+      "x": 90,
+      "y": 670,
+      "width": 380,
+      "height": 60
+    },
+    {
+      "entity": "e_layers_server_facade",
+      "parent": "e_layer_web",
+      "x": 880,
+      "y": 410,
+      "width": 350,
+      "height": 60
+    },
+    {
+      "entity": "e_layers_transport_swap",
+      "parent": "e_layer_web",
+      "x": 510,
+      "y": 670,
+      "width": 320,
+      "height": 60
+    },
+    {
+      "entity": "e_layers_netif",
+      "parent": "e_layer_sdk",
+      "x": 440,
+      "y": 1090,
+      "width": 440,
+      "height": 60
+    },
+    {
+      "entity": "e_layers_caveat",
+      "parent": "e_layer_sdk",
+      "x": 920,
+      "y": 1090,
+      "width": 330,
+      "height": 60
+    },
+    {
+      "entity": "e_layers_lwip",
+      "parent": "e_layer_sdk",
+      "x": 440,
+      "y": 970,
+      "width": 440,
+      "height": 60
+    },
+    {
+      "entity": "e_layers_httpd_label",
+      "parent": "e_layer_sdk",
+      "x": 880,
+      "y": 970,
+      "width": 350,
+      "height": 60
+    }
+  ],
+  "routing": "orthogonal",
+  "relations": {
+    "except": [
+      "r_routes_response_call",
+      "r_routes_sse_call",
+      "r_producer_sse_call",
+      "r_producer_ws_call",
+      "r_routes_request_call",
+      "r_server_httpd_depends",
+      "r_ws_httpd_depends",
+      "r_httpd_tcp_data_flow",
+      "r_routes_server_depends",
+      "r_sse_httpd_depends"
+    ]
+  }
+}

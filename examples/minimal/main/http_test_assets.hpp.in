@@ -1,0 +1,11 @@
+#pragma once
+// Generated into the build directory from the shared frontend/http-test sources.
+namespace http_test_assets
+{
+inline constexpr char html[] = R"NAWHTML(@HTTP_TEST_HTML@)NAWHTML";
+inline constexpr char css[] = R"NAWCSS(@HTTP_TEST_CSS@)NAWCSS";
+inline constexpr char javascript[] = R"NAWJS(@HTTP_TEST_JAVASCRIPT@)NAWJS";
+inline constexpr char mcp_client[] = R"NAWMCPCLIENT(@HTTP_TEST_MCP_CLIENT@)NAWMCPCLIENT";
+inline constexpr char mcp_panel[] = R"NAWMCPPANEL(@HTTP_TEST_MCP_PANEL@)NAWMCPPANEL";
+inline constexpr char configuration[] = R"NAWCONFIG(@HTTP_TEST_CONFIGURATION@)NAWCONFIG";
+}

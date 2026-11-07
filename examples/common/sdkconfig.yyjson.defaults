@@ -1,0 +1,5 @@
+CONFIG_NAWSERVER_MCP=y
+# CONFIG_NAWSERVER_JSON_BOUNDED is not set
+CONFIG_NAWSERVER_JSON_YYJSON=y
+# Fixed pool; no heap fallback. Output remains a separate 2048-byte buffer.
+CONFIG_NAWSERVER_JSON_WORKSPACE_BYTES=16384

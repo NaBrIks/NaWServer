@@ -1,0 +1,21 @@
+# Keep the default secret detectors. Only known public protocol fixtures and
+# hexadecimal source-checksum evidence are exempted from generic-api-key.
+[extend]
+useDefault = true
+
+[[rules]]
+id = "generic-api-key"
+
+[[rules.allowlists]]
+description = "Public WebSocket handshake nonces in offline protocol tests"
+condition = "AND"
+regexTarget = "secret"
+paths = ['''(?:^|/)tests/''', '''(?:^|/)tools/minimal_sse_probe/stop\.go$''']
+regexes = ['''^dGhlIHNhbXBsZSBub25jZQ==$''', '''^MDEyMzQ1Njc4OWFiY2RlZg==$''', '''^0123456789abcdef$''']
+
+[[rules.allowlists]]
+description = "Historical SHA-256 evidence, not authentication material"
+condition = "AND"
+regexTarget = "secret"
+paths = ['''(?:^|/)tools/http_api_smoke/results/verification\.json$''', '''(?:^|/)tools/sse/results/(?:integration|library)-source-sha256\.json$''']
+regexes = ['''^[0-9a-f]{64}$''']
